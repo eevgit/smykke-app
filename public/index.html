@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HosEjbye - Start</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <nav class="topbar card">
+      <a class="brand-mark brand-link" href="index.html">HosEjbye Studio</a>
+      <div class="topbar-links">
+        <a class="admin-link" href="lager.html">Smykker</a>
+        <a class="admin-link" href="keramik.html">Keramik</a>
+        <a class="admin-link" href="design.html">Design</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">Smykker og keramik</p>
+      <h1 id="siteHeroTitle">HosEjbye</h1>
+      <p class="intro" id="siteHeroIntro1">Personlige smykker og håndlavet keramik til private, gaver og virksomhedsbestillinger.</p>
+      <p class="intro" id="siteHeroIntro2">Vi laver små kollektioner, specialdesign og samarbejder med butikker.</p>
+    </header>
+
+    <section class="panel landing-grid">
+      <article class="card menu-card">
+        <p class="eyebrow">Kollektion</p>
+        <h2>Smykker</h2>
+        <p>Se kollektionen og filtrer efter armbånd, halskæder og nøgleringe.</p>
+        <img class="menu-image" src="assets/Design uden navn (1).png" alt="Smykker på lager" />
+        <a class="menu-link" href="lager.html">Se smykker</a>
+      </article>
+
+      <article class="card menu-card">
+        <p class="eyebrow">Lav dit eget</p>
+        <h2>Design et smykke</h2>
+        <p>Byg dit eget design med perler, vælg længde og send bestillingen direkte.</p>
+        <img class="menu-image" src="assets/Design uden navn (5).png" alt="Design dit eget smykke" />
+        <a class="menu-link" href="design.html">Start design</a>
+      </article>
+
+      <article class="card menu-card">
+        <p class="eyebrow">Håndlavet keramik</p>
+        <h2>Keramik til salg</h2>
+        <p>Find kopper, skåle og vaser der er klar til køb.</p>
+        <img class="menu-image" src="assets/Design uden navn (6).png" alt="Keramik til salg" />
+        <a class="menu-link" href="keramik.html">Se keramik</a>
+      </article>
+    </section>
+
+    <section class="panel process-band">
+      <h2>Sådan opretter du en ordre</h2>
+      <div class="process-steps">
+        <p class="process-step">1. Gå til Design</p>
+        <p class="process-step">2. Tilføj dine smykker</p>
+        <p class="process-step">3. Bekræft køb i checkout</p>
+      </div>
+    </section>
+
+    <section class="panel showcase-gallery">
+      <h2>Produkter</h2>
+      <div class="gallery-grid">
+        <img class="gallery-image" src="assets/Design uden navn.png" alt="HosEjbye produkt" />
+        <img class="gallery-image" src="assets/Design uden navn (1).png" alt="HosEjbye produkt" />
+        <img class="gallery-image" src="assets/Design uden navn (2).png" alt="HosEjbye produkt" />
+        <img class="gallery-image" src="assets/Design uden navn (3).png" alt="HosEjbye produkt" />
+        <img class="gallery-image" src="assets/Design uden navn (4).png" alt="HosEjbye produkt" />
+        <img class="gallery-image" src="assets/Design uden navn (7).png" alt="HosEjbye produkt" />
+      </div>
+    </section>
+
+    <section class="panel business-grid">
+      <article class="card">
+        <h2>Om virksomheden</h2>
+        <p id="siteAboutText1">HosEjbye er et kreativt værksted med fokus på kvalitet, rolige farver og håndlavede detaljer.</p>
+        <p id="siteAboutText2">Vi tilbyder både enkeltkøb og mindre B2B-serier til butikker, events og firmagaver.</p>
+      </article>
+      <article class="card">
+        <h2>Kontakt og åbning</h2>
+       
+        <p><strong>Telefon:</strong> <span id="siteContactPhone">12 34 56 78</span></p>
+        <p><strong>Instagram:</strong> <a href="https://www.instagram.com/hosejbye" target="_blank" class="contact-link">@hosejbye</a></p>
+        <p><strong>Boden:</strong> <span id="siteBoothAddress">Ny Munkegade 76 i Aarhus</span></p>
+        <p><strong>Åbningstid:</strong> <span id="siteOpeningHours">Man-Fre 10:00-17:00</span></p>
+      </article>
+    </section>
+  </main>
+  <script src="site-content.js"></script>
+  <script src="flyout.js"></script>
+  <script src="global-cart.js"></script>
+  <script src="cart-overview.js"></script>
+</body>
+</html>

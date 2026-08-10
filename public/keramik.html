@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keramik til salg - HosEjbye</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <nav class="topbar card">
+      <a class="brand-mark brand-link" href="index.html">HosEjbye Studio</a>
+      <div class="topbar-links">
+        <a class="admin-link" href="index.html">Start</a>
+        <a class="admin-link" href="lager.html">Smykker</a>
+        <a class="admin-link" href="design.html">Design</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">Keramik</p>
+      <h1>Keramik til salg</h1>
+      <p class="intro">Håndlavet keramik i små batch med naturlige glasurer.</p>
+      <p class="intro">Se udvalget og produktdetaljer nedenfor.</p>
+      <p class="intro"><a class="admin-link" href="index.html">← Tilbage</a></p>
+    </header>
+
+    <section class="panel card">
+      <div class="category-bar" id="categoryBar">
+        <button class="filter-btn active" type="button" data-category="all">Alle</button>
+        <button class="filter-btn" type="button" data-category="cup">Kopper</button>
+        <button class="filter-btn" type="button" data-category="bowl">Skåle</button>
+        <button class="filter-btn" type="button" data-category="vase">Vaser</button>
+      </div>
+    </section>
+
+    <section class="panel products-grid" id="ceramicGrid"></section>
+
+  </main>
+  <script src="flyout.js"></script>
+  <script src="global-cart.js"></script>
+  <script src="cart-overview.js"></script>
+  <script src="keramik.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" role="img" aria-label="Halskade Nordlys">
+  <rect width="680" height="420" fill="#ece9f3"/>
+  <path d="M120 90c60 220 380 220 440 0" fill="none" stroke="#4f5c87" stroke-width="14"/>
+  <g>
+    <circle cx="170" cy="190" r="14" fill="#5a6ca9"/>
+    <circle cx="220" cy="240" r="14" fill="#6986b2"/>
+    <circle cx="280" cy="275" r="14" fill="#7a8cc4"/>
+    <circle cx="340" cy="288" r="14" fill="#8b74b6"/>
+    <circle cx="400" cy="275" r="14" fill="#6f8dbd"/>
+    <circle cx="460" cy="240" r="14" fill="#5a6ca9"/>
+    <circle cx="510" cy="190" r="14" fill="#7a8cc4"/>
+  </g>
+  <text x="340" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="#2e3355">Nordlys</text>
+</svg>

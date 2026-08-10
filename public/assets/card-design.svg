@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="Design dit smykke">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e9f2ef"/>
+      <stop offset="1" stop-color="#f5fbf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="520" fill="url(#bg)"/>
+  <g>
+    <rect x="150" y="90" width="500" height="320" rx="26" fill="#ffffff" stroke="#1f6f7d" stroke-width="8"/>
+    <circle cx="250" cy="190" r="24" fill="#cb8b2b"/>
+    <circle cx="330" cy="190" r="24" fill="#d6879c"/>
+    <circle cx="410" cy="190" r="24" fill="#3f6d4f"/>
+    <circle cx="490" cy="190" r="24" fill="#2f6885"/>
+    <rect x="220" y="260" width="360" height="18" rx="9" fill="#d2e7ea"/>
+    <rect x="220" y="300" width="280" height="18" rx="9" fill="#d2e7ea"/>
+  </g>
+  <text x="400" y="450" text-anchor="middle" font-family="Arial, sans-serif" font-size="46" fill="#214148">Design selv</text>
+</svg>

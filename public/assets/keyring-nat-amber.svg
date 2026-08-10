@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" role="img" aria-label="Noglering Nat og Amber">
+  <rect width="680" height="420" fill="#f1ece7"/>
+  <circle cx="250" cy="190" r="70" fill="none" stroke="#20232f" stroke-width="14"/>
+  <rect x="310" y="180" width="140" height="20" rx="10" fill="#20232f"/>
+  <g fill="#ca8c2a">
+    <circle cx="470" cy="190" r="14"/>
+    <circle cx="500" cy="190" r="14"/>
+    <circle cx="530" cy="190" r="14"/>
+  </g>
+  <text x="340" y="355" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="#352a1f">Nat &amp; Amber</text>
+</svg>

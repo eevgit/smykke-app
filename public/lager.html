@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smykker - HosEjbye</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <nav class="topbar card">
+      <a class="brand-mark brand-link" href="index.html">HosEjbye Studio</a>
+      <div class="topbar-links">
+        <a class="admin-link" href="index.html">Start</a>
+        <a class="admin-link" href="design.html">Design</a>
+        <a class="admin-link" href="keramik.html">Keramik</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">Kollektion</p>
+      <h1>Smykker</h1>
+      <p class="intro">Vælg kategori, se pris pr. vare og læs mere om hvert smykke.</p>
+      <p class="intro"><a class="admin-link" href="index.html">← Tilbage</a></p>
+    </header>
+
+    <section class="panel card">
+      <div class="category-bar" id="categoryBar">
+        <button class="filter-btn active" type="button" data-category="all">Alle</button>
+        <button class="filter-btn" type="button" data-category="bracelet">Armbånd</button>
+        <button class="filter-btn" type="button" data-category="necklace">Halskæde</button>
+        <button class="filter-btn" type="button" data-category="keyring">Nøglering</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div id="productsGrid" class="products-grid products-grid-full"></div>
+    </section>
+  </main>
+
+  <script src="flyout.js"></script>
+  <script src="global-cart.js"></script>
+  <script src="cart-overview.js"></script>
+  <script src="lager.js"></script>
+</body>
+</html>

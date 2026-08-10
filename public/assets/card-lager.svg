@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="Smykker på lager">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2dfc6"/>
+      <stop offset="1" stop-color="#f9efe0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="520" fill="url(#bg)"/>
+  <g fill="none" stroke="#b76b43" stroke-width="12">
+    <circle cx="190" cy="220" r="90"/>
+    <circle cx="610" cy="220" r="90"/>
+    <path d="M120 220h560"/>
+  </g>
+  <g fill="#2a6f7d">
+    <circle cx="300" cy="220" r="16"/>
+    <circle cx="350" cy="220" r="16"/>
+    <circle cx="400" cy="220" r="16"/>
+    <circle cx="450" cy="220" r="16"/>
+    <circle cx="500" cy="220" r="16"/>
+  </g>
+  <text x="400" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="46" fill="#2d241d">Klar til salg</text>
+</svg>

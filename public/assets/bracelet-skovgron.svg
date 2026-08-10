@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" role="img" aria-label="Armband Skovgron Balance">
+  <rect width="680" height="420" fill="#e8f0e8"/>
+  <circle cx="340" cy="210" r="120" fill="none" stroke="#3f6d4f" stroke-width="14"/>
+  <g fill="#7ea08a">
+    <circle cx="220" cy="210" r="16"/>
+    <circle cx="250" cy="145" r="16"/>
+    <circle cx="310" cy="105" r="16"/>
+    <circle cx="370" cy="105" r="16"/>
+    <circle cx="430" cy="145" r="16"/>
+    <circle cx="460" cy="210" r="16"/>
+    <circle cx="430" cy="275" r="16"/>
+    <circle cx="370" cy="315" r="16"/>
+    <circle cx="310" cy="315" r="16"/>
+    <circle cx="250" cy="275" r="16"/>
+  </g>
+  <text x="340" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="#264331">Skovgron Balance</text>
+</svg>

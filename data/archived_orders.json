@@ -1,0 +1,404 @@
+[
+  {
+    "id": "b5216219-0873-4369-a382-86652069bbfd",
+    "createdAt": "2026-08-07T12:01:11.951Z",
+    "status": "Færdig",
+    "customer": {
+      "name": "Test Kunde",
+      "contact": "test@test.dk | Testvej 2, 8000 Aarhus"
+    },
+    "items": [
+      {
+        "type": "Keramik - Debug Produkt",
+        "count": 1,
+        "lengthMm": 0,
+        "priceDkk": 100,
+        "description": "debug"
+      }
+    ],
+    "updatedAt": "2026-08-07T12:09:04.937Z",
+    "archivedAt": "2026-08-07T12:09:04.938Z",
+    "archivedBy": "owner"
+  },
+  {
+    "id": "d639ef18-9b23-46a2-80aa-3bc41b629d2c",
+    "createdAt": "2026-08-07T12:02:41.603Z",
+    "status": "Færdig",
+    "customer": {
+      "name": "Test",
+      "contact": "x"
+    },
+    "items": [
+      {
+        "type": "Test",
+        "count": 1,
+        "priceDkk": 100
+      }
+    ],
+    "updatedAt": "2026-08-07T12:09:01.981Z",
+    "archivedAt": "2026-08-07T12:09:01.982Z",
+    "archivedBy": "owner"
+  },
+  {
+    "id": "5771514f-9a3c-4474-89b3-237f5a9fa8f5",
+    "createdAt": "2026-08-07T09:26:07.399Z",
+    "status": "Færdig",
+    "customer": {
+      "name": "Checkout Kunde",
+      "contact": "kunde@example.com | Torvegade 12, 5000 Odense | Note: Levering ved dor"
+    },
+    "items": [
+      {
+        "type": "Armbånd - Sand & Kobber",
+        "count": 1,
+        "lengthMm": 180,
+        "priceDkk": 349,
+        "description": "Håndlavet armbånd med varme jordtoner. Passer godt til både hverdag og gave."
+      }
+    ],
+    "updatedAt": "2026-08-07T09:45:32.446Z",
+    "restoredAt": "2026-08-07T09:45:24.361Z",
+    "restoredBy": "owner",
+    "archivedAt": "2026-08-07T09:45:32.446Z",
+    "archivedBy": "owner"
+  },
+  {
+    "id": "54514574-f7de-4872-935a-8adfb3b02284",
+    "createdAt": "2026-08-07T09:24:11.655Z",
+    "status": "Færdig",
+    "customer": {
+      "name": "Test Kunde",
+      "contact": "test@example.com | Eksempelvej 10, 8000 Aarhus | Note: Test ordre"
+    },
+    "items": [
+      {
+        "type": "Armbånd - Sand & Kobber",
+        "count": 1,
+        "lengthMm": 180,
+        "priceDkk": 349,
+        "description": "Håndlavet armbånd med varme jordtoner. Passer godt til både hverdag og gave."
+      }
+    ],
+    "updatedAt": "2026-08-07T09:37:47.878Z",
+    "archivedAt": "2026-08-07T09:37:55.686Z",
+    "archivedBy": "owner"
+  },
+  {
+    "id": "3d59d5b6-607c-45dc-ad9d-ca6223ee7e0f",
+    "createdAt": "2026-08-06T12:26:18.297Z",
+    "status": "Færdig",
+    "customer": {
+      "name": "emma",
+      "contact": "30300901"
+    },
+    "items": [
+      {
+        "type": "Nøglering",
+        "worker": "Asta",
+        "targetMm": 100,
+        "lengthMm": 70,
+        "count": 7,
+        "mix": "10 mm: 7",
+        "beads": [
+          {
+            "color": "#b66a43",
+            "size": 10
+          },
+          {
+            "color": "#b66a43",
+            "size": 10
+          },
+          {
+            "color": "#b66a43",
+            "size": 10
+          },
+          {
+            "color": "#b66a43",
+            "size": 10
+          },
+          {
+            "color": "#b66a43",
+            "size": 10
+          },
+          {
+            "color": "#b66a43",
+            "size": 10
+          },
+          {
+            "color": "#b66a43",
+            "size": 10
+          }
+        ]
+      },
+      {
+        "type": "Halskæde",
+        "worker": "Fatima",
+        "targetMm": 400,
+        "lengthMm": 400,
+        "count": 40,
+        "mix": "10 mm: 40",
+        "beads": [
+          {
+            "color": "#2f6885",
+            "size": 10
+          },
+          {
+            "color": "#2f6885",
+            "size": 10
+          },
+          {
+            "color": "#2f6885",
+            "size": 10
+          },
+          {
+            "color": "#2f6885",
+            "size": 10
+          },
+          {
+            "color": "#2f6885",
+            "size": 10
+          },
+          {
+            "color": "#2f6885",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          },
+          {
+            "color": "#3f6d4f",
+            "size": 10
+          }
+        ]
+      }
+    ],
+    "updatedAt": "2026-08-07T09:33:49.824Z",
+    "archivedAt": "2026-08-07T09:37:55.686Z",
+    "archivedBy": "owner"
+  },
+  {
+    "id": "416fe044-5323-4a46-af84-d5ec5e61d1d5",
+    "createdAt": "2026-08-06T12:22:45.073Z",
+    "status": "Færdig",
+    "customer": {
+      "name": "emma",
+      "contact": "30300901"
+    },
+    "items": [
+      {
+        "type": "Armbånd",
+        "worker": "Mikkel",
+        "targetMm": 180,
+        "lengthMm": 172,
+        "count": 18,
+        "mix": "12 mm: 4, 8 mm: 6, 10 mm: 4, 9 mm: 4",
+        "beads": [
+          {
+            "color": "#b66a43",
+            "size": 12
+          },
+          {
+            "color": "#b66a43",
+            "size": 12
+          },
+          {
+            "color": "#b66a43",
+            "size": 12
+          },
+          {
+            "color": "#b66a43",
+            "size": 12
+          },
+          {
+            "color": "#20232f",
+            "size": 8
+          },
+          {
+            "color": "#20232f",
+            "size": 8
+          },
+          {
+            "color": "#20232f",
+            "size": 8
+          },
+          {
+            "color": "#20232f",
+            "size": 8
+          },
+          {
+            "color": "#d68aa0",
+            "size": 8
+          },
+          {
+            "color": "#d68aa0",
+            "size": 8
+          },
+          {
+            "color": "#ca8c2a",
+            "size": 10
+          },
+          {
+            "color": "#ca8c2a",
+            "size": 10
+          },
+          {
+            "color": "#ca8c2a",
+            "size": 10
+          },
+          {
+            "color": "#ca8c2a",
+            "size": 10
+          },
+          {
+            "color": "#b66a43",
+            "size": 9
+          },
+          {
+            "color": "#b66a43",
+            "size": 9
+          },
+          {
+            "color": "#b66a43",
+            "size": 9
+          },
+          {
+            "color": "#b66a43",
+            "size": 9
+          }
+        ]
+      }
+    ],
+    "updatedAt": "2026-08-07T09:33:52.463Z",
+    "archivedAt": "2026-08-07T09:37:55.686Z",
+    "archivedBy": "owner"
+  }
+]

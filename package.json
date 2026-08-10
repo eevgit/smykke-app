@@ -1,0 +1,15 @@
+{
+  "name": "smykke-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Smykke bestillingsapp med admin login og ordreoversigt",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "backup:data": "node scripts/backup-data.js",
+    "check:health": "powershell -Command \"Invoke-WebRequest -UseBasicParsing http://localhost:3000/api/health | Select-Object -ExpandProperty Content\""
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

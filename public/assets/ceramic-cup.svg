@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 460" role="img" aria-label="Espressokop Lerhvid">
+  <rect width="680" height="460" fill="#f2ede5"/>
+  <rect x="210" y="150" width="220" height="180" rx="40" fill="#ddd5c7" stroke="#ae9a82" stroke-width="8"/>
+  <path d="M430 190c42 0 62 24 62 51s-20 51-62 51" fill="none" stroke="#ae9a82" stroke-width="14"/>
+  <ellipse cx="320" cy="150" rx="110" ry="24" fill="#e8e1d4"/>
+  <text x="340" y="410" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" fill="#49352a">Espressokop</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 460" role="img" aria-label="Skal Havgron glasur">
+  <rect width="680" height="460" fill="#e8f1ef"/>
+  <path d="M130 180h420c0 110-92 190-210 190S130 290 130 180z" fill="#6ca7a1" stroke="#4f7d78" stroke-width="8"/>
+  <ellipse cx="340" cy="180" rx="210" ry="45" fill="#84b9b2"/>
+  <text x="340" y="410" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" fill="#244944">Skal</text>
+</svg>

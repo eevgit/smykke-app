@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 460" role="img" aria-label="Vase Sandtone">
+  <rect width="680" height="460" fill="#f3ece4"/>
+  <path d="M310 90h60v70c0 24 12 44 30 70 20 30 24 57 24 78 0 64-40 102-84 102s-84-38-84-102c0-21 4-48 24-78 18-26 30-46 30-70V90z" fill="#be926f" stroke="#9b7356" stroke-width="8"/>
+  <ellipse cx="340" cy="90" rx="30" ry="8" fill="#d6ae8d"/>
+  <text x="340" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" fill="#4a3628">Vase</text>
+</svg>

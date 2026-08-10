@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: smykke-app
+    runtime: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: SESSION_HOURS
+        value: 8
+      - key: LOGIN_MAX_ATTEMPTS
+        value: 6
+      - key: LOGIN_BLOCK_MINUTES
+        value: 15
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM
+        sync: false
+      - key: TWILIO_TO
+        sync: false

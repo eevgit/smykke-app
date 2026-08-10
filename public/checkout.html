@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - HosEjbye</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <nav class="topbar card">
+      <a class="brand-mark brand-link" href="index.html">HosEjbye Studio</a>
+      <div class="topbar-links">
+        <a class="admin-link" href="index.html">Start</a>
+        <a class="admin-link" href="lager.html">Smykker</a>
+        <a class="admin-link" href="keramik.html">Keramik</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">Checkout</p>
+      <h1>Gennemfør bestilling</h1>
+      <p class="intro">Indtast dine oplysninger for at sende ordren igennem.</p>
+      <p class="intro"><a class="admin-link" href="lager.html">Tilbage til smykker</a></p>
+    </header>
+
+    <section class="panel checkout-page-grid">
+      <article class="card">
+        <h2>Din kurv</h2>
+        <div id="checkoutCartItems"></div>
+        <p id="checkoutCartTotal" class="cart-total"></p>
+      </article>
+
+      <article class="card">
+        <h2>Dine oplysninger</h2>
+        <div class="checkout-form">
+          <label for="orderName">Navn</label>
+          <input id="orderName" type="text" placeholder="Fulde navn" />
+
+          <label for="orderContact">Email eller telefon</label>
+          <input id="orderContact" type="text" placeholder="mail@eksempel.dk / 12 34 56 78" />
+
+          <label for="orderAddress">Adresse</label>
+          <input id="orderAddress" type="text" placeholder="Vejnavn og nummer" />
+
+          <div class="checkout-inline">
+            <div>
+              <label for="orderPostCode">Postnr.</label>
+              <input id="orderPostCode" type="text" placeholder="8000" />
+            </div>
+            <div>
+              <label for="orderCity">By</label>
+              <input id="orderCity" type="text" placeholder="Aarhus" />
+            </div>
+          </div>
+
+          <label for="orderNote">Note (valgfri)</label>
+          <input id="orderNote" type="text" placeholder="Fx gaveindpakning" />
+
+          <button id="submitOrderBtn" class="primary" type="button">Gennemfør bestilling</button>
+          <p id="checkoutMessage" class="order-message"></p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="flyout.js"></script>
+  <script src="global-cart.js"></script>
+  <script src="cart-overview.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>

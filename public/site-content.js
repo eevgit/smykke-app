@@ -29,7 +29,12 @@ async function loadSiteContent() {
     setText("siteAboutText1", content.aboutText1);
     setText("siteAboutText2", content.aboutText2);
     setText("siteContactEmail", content.contactEmail);
-    setText("siteContactPhone", content.contactPhone);
+    const instagramLink = document.getElementById("siteInstagramName");
+    if (instagramLink && typeof content.instagramName === "string" && content.instagramName.trim()) {
+      const instagramName = content.instagramName.trim();
+      instagramLink.textContent = instagramName;
+      instagramLink.href = `https://www.instagram.com/${encodeURIComponent(instagramName.replace(/^@/, ""))}`;
+    }
     setText("siteBoothAddress", content.boothAddress);
     setText("siteOpeningHours", content.openingHours);
   } catch {

@@ -28,72 +28,76 @@
     </section>
 
     <section class="panel card hidden" id="adminPanel">
-      <div class="actions">
-        <button id="refreshBtn" type="button" class="secondary">Opdater liste</button>
+      <nav class="actions" aria-label="Admin menu">
         <button id="activeTabBtn" type="button" class="admin-switch-link active">Aktive ordrer</button>
         <button id="finishedTabBtn" type="button" class="admin-switch-link">Færdige ordrer</button>
+        <button id="revenueTabBtn" type="button" class="admin-switch-link">Omsætning</button>
+        <a class="admin-switch-link" href="edit.html">Rediger forside</a>
+        <a class="admin-switch-link" href="produkter.html">Produkter</a>
+      </nav>
+      <div class="actions">
         <button id="logoutBtn" type="button" class="secondary">Log ud</button>
       </div>
 
-      <h2>Økonomisk overblik</h2>
-      <div id="statsBox" class="stats-grid"></div>
+      <section id="revenueSection" class="hidden">
+        <h2>Økonomisk overblik</h2>
+        <div id="statsBox" class="stats-grid"></div>
+        <div id="statsChart"></div>
 
-      <section>
-        <h2>Rediger forside</h2>
-        <div class="checkout-form">
-          <label for="siteHeroTitleInput">Hovedtitel</label>
-          <input id="siteHeroTitleInput" type="text" placeholder="HosEjbye" />
-
-          <label for="siteHeroIntro1Input">Intro linje 1</label>
-          <textarea id="siteHeroIntro1Input" rows="2"></textarea>
-
-          <label for="siteHeroIntro2Input">Intro linje 2</label>
-          <textarea id="siteHeroIntro2Input" rows="2"></textarea>
-
-          <label for="siteAboutText1Input">Om virksomheden linje 1</label>
-          <textarea id="siteAboutText1Input" rows="2"></textarea>
-
-          <label for="siteAboutText2Input">Om virksomheden linje 2</label>
-          <textarea id="siteAboutText2Input" rows="2"></textarea>
-
-          <div class="checkout-inline">
-            <div>
-              <label for="siteContactEmailInput">Email</label>
-              <input id="siteContactEmailInput" type="text" />
+        <details class="panel">
+          <summary>Skift adgangskode</summary>
+          <div class="checkout-form">
+            <label for="currentPasswordInput">Nuværende password</label>
+            <input id="currentPasswordInput" type="password" />
+            <label for="newPasswordInput">Nyt password (min. 6 tegn)</label>
+            <input id="newPasswordInput" type="password" />
+            <div class="actions">
+              <button id="changePasswordBtn" type="button" class="primary">Skift adgangskode</button>
             </div>
-            <div>
-              <label for="siteContactPhoneInput">Telefon</label>
-              <input id="siteContactPhoneInput" type="text" />
-            </div>
+            <p id="changePasswordMessage" class="order-message"></p>
           </div>
+        </details>
 
-          <div class="checkout-inline">
-            <div>
-              <label for="siteBoothAddressInput">Adresse/Bod</label>
-              <input id="siteBoothAddressInput" type="text" />
-            </div>
-            <div>
-              <label for="siteOpeningHoursInput">Åbningstid</label>
-              <input id="siteOpeningHoursInput" type="text" />
-            </div>
-          </div>
-
+        <details class="panel">
+          <summary>Regnskabsimport (Excel)</summary>
+          <p class="intro">Upload din .xlsx-fil med et faneblad pr. måned (fanenavn = måned), en dato-kolonne og kategori-kolonner pr. varetype. Tallene vises side om side med appens egne ordretal pr. måned.</p>
           <div class="actions">
-            <button id="reloadSiteContentBtn" type="button" class="secondary">Hent indhold</button>
-            <button id="saveSiteContentBtn" type="button" class="primary">Gem forside</button>
+            <input id="accountingFileInput" type="file" accept=".xlsx" />
+            <button id="importAccountingBtn" type="button" class="primary">Importér regnskab</button>
           </div>
-          <p id="siteContentMessage" class="order-message"></p>
-        </div>
+          <p id="accountingMessage" class="order-message"></p>
+
+          <p class="intro">Kører appen lokalt på din computer, kan du i stedet pege på filens sti (fx i din OneDrive-mappe) og få den opdateret automatisk, hver gang du gemmer ændringer i Excel.</p>
+          <div class="checkout-inline">
+            <div>
+              <label for="accountingWatchPathInput">Sti til fil (lokal)</label>
+              <input id="accountingWatchPathInput" type="text" placeholder="C:\Users\...\OneDrive\Regnskab af vejbod.xlsx" />
+            </div>
+          </div>
+          <div class="actions">
+            <button id="startWatchBtn" type="button" class="secondary">Start automatisk opdatering</button>
+            <button id="stopWatchBtn" type="button" class="secondary">Stop automatisk opdatering</button>
+          </div>
+          <p id="accountingWatchMessage" class="order-message"></p>
+
+          <div id="accountingSummary"></div>
+        </details>
       </section>
 
       <section id="activeOrdersSection">
         <h2>Ordrer</h2>
+        <div class="actions">
+          <button id="refreshActiveBtn" type="button" class="secondary">Opdater liste</button>
+        </div>
         <div id="ordersList"></div>
       </section>
 
       <section id="finishedOrdersSection" class="hidden">
         <h2>Arkiverede ordrer</h2>
         <p class="intro">Her ligger ordrer der er flyttet væk. Du kan gendanne dem til aktiv liste.</p>
+        <div class="actions">
+          <button id="refreshFinishedBtn" type="button" class="secondary">Opdater liste</button>
+        </div>
         <div id="archivedOrdersList"></div>
       </section>
     </section>

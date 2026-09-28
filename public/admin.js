@@ -4,27 +4,35 @@ const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const loginBtn = document.getElementById("loginBtn");
 const loginMessage = document.getElementById("loginMessage");
-const refreshBtn = document.getElementById("refreshBtn");
+const refreshActiveBtn = document.getElementById("refreshActiveBtn");
+const refreshFinishedBtn = document.getElementById("refreshFinishedBtn");
 const activeTabBtn = document.getElementById("activeTabBtn");
 const finishedTabBtn = document.getElementById("finishedTabBtn");
+const revenueTabBtn = document.getElementById("revenueTabBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const activeOrdersSection = document.getElementById("activeOrdersSection");
 const finishedOrdersSection = document.getElementById("finishedOrdersSection");
+const revenueSection = document.getElementById("revenueSection");
 const ordersList = document.getElementById("ordersList");
 const statsBox = document.getElementById("statsBox");
+const statsChart = document.getElementById("statsChart");
 const archivedOrdersList = document.getElementById("archivedOrdersList");
-const siteHeroTitleInput = document.getElementById("siteHeroTitleInput");
-const siteHeroIntro1Input = document.getElementById("siteHeroIntro1Input");
-const siteHeroIntro2Input = document.getElementById("siteHeroIntro2Input");
-const siteAboutText1Input = document.getElementById("siteAboutText1Input");
-const siteAboutText2Input = document.getElementById("siteAboutText2Input");
-const siteContactEmailInput = document.getElementById("siteContactEmailInput");
-const siteContactPhoneInput = document.getElementById("siteContactPhoneInput");
-const siteBoothAddressInput = document.getElementById("siteBoothAddressInput");
-const siteOpeningHoursInput = document.getElementById("siteOpeningHoursInput");
-const reloadSiteContentBtn = document.getElementById("reloadSiteContentBtn");
-const saveSiteContentBtn = document.getElementById("saveSiteContentBtn");
-const siteContentMessage = document.getElementById("siteContentMessage");
+const currentPasswordInput = document.getElementById("currentPasswordInput");
+const newPasswordInput = document.getElementById("newPasswordInput");
+const changePasswordBtn = document.getElementById("changePasswordBtn");
+const changePasswordMessage = document.getElementById("changePasswordMessage");
+const accountingFileInput = document.getElementById("accountingFileInput");
+const importAccountingBtn = document.getElementById("importAccountingBtn");
+const accountingMessage = document.getElementById("accountingMessage");
+const accountingSummary = document.getElementById("accountingSummary");
+const accountingWatchPathInput = document.getElementById("accountingWatchPathInput");
+const startWatchBtn = document.getElementById("startWatchBtn");
+const stopWatchBtn = document.getElementById("stopWatchBtn");
+const accountingWatchMessage = document.getElementById("accountingWatchMessage");
+
+let lastAppMonthlySeries = [];
+let lastImportedAccounting = null;
+let accountingPollTimer = null;
 
 const TOKEN_KEY = "smykke_admin_token";
 
@@ -56,14 +64,6 @@ function setLoginMessage(text, type) {
   }
 }
 
-function setSiteContentMessage(text, type) {
-  siteContentMessage.textContent = text;
-  siteContentMessage.classList.remove("ok", "warn");
-  if (type) {
-    siteContentMessage.classList.add(type);
-  }
-}
-
 function formatDkk(value) {
   return new Intl.NumberFormat("da-DK", {
     style: "currency",
@@ -75,26 +75,26 @@ function formatDkk(value) {
 function renderStats(stats) {
   if (!stats) {
     statsBox.innerHTML = "<p>Kunne ikke hente statistik.</p>";
+    statsChart.innerHTML = "";
     return;
   }
 
   statsBox.innerHTML = `
     <article class="kpi-card">
       <p class="kpi-label">Solgt i uge</p>
-      <p class="kpi-value">${formatDkk(stats.revenue.week)}</p>
-      <p>Antal solgte ordrer: ${stats.counts.sold}</p>
+      <p class="kpi-value">${stats.counts.weekOrders} ordrer</p>
+      <p>Varer solgt: ${stats.counts.weekItems}</p>
     </article>
     <article class="kpi-card">
       <p class="kpi-label">Solgt i måned</p>
-      <p class="kpi-value">${formatDkk(stats.revenue.month)}</p>
-      <p>Solgt i år: ${formatDkk(stats.revenue.year)}</p>
+      <p class="kpi-value">${stats.counts.monthOrders} ordrer</p>
+      <p>Varer solgt: ${stats.counts.monthItems}</p>
     </article>
     <article class="kpi-card">
-      <p class="kpi-label">Statusindtjening</p>
-      <p>Sendt: ${formatDkk(stats.revenue.sent)} (${stats.counts.sent} ordrer)</p>
-      <p>Færdig: ${formatDkk(stats.revenue.finished)} (${stats.counts.finished} ordrer)</p>
-      <p>I alt solgt: ${formatDkk(stats.revenue.soldTotal)}</p>
-      <p>Gns. ordreværdi: ${formatDkk(stats.revenue.soldAverage)}</p>
+      <p class="kpi-label">Statusoversigt</p>
+      <p>Sendt: ${stats.counts.sent} ordrer / ${stats.counts.sentItems} varer</p>
+      <p>Færdig: ${stats.counts.finished} ordrer / ${stats.counts.finishedItems} varer</p>
+      <p>I alt solgt: ${stats.counts.sold} ordrer / ${stats.counts.soldItems} varer</p>
     </article>
     <article class="kpi-card">
       <p class="kpi-label">Ordreoversigt</p>
@@ -104,32 +104,393 @@ function renderStats(stats) {
       <p>Nye i dag: ${stats.counts.today}</p>
     </article>
   `;
+
+  renderStatsChart(stats.series);
 }
 
-function siteContentPayloadFromInputs() {
-  return {
-    heroTitle: siteHeroTitleInput.value.trim(),
-    heroIntro1: siteHeroIntro1Input.value.trim(),
-    heroIntro2: siteHeroIntro2Input.value.trim(),
-    aboutText1: siteAboutText1Input.value.trim(),
-    aboutText2: siteAboutText2Input.value.trim(),
-    contactEmail: siteContactEmailInput.value.trim(),
-    contactPhone: siteContactPhoneInput.value.trim(),
-    boothAddress: siteBoothAddressInput.value.trim(),
-    openingHours: siteOpeningHoursInput.value.trim()
-  };
+function renderChartBars(title, series) {
+  if (!Array.isArray(series) || series.length === 0) {
+    return `
+      <article class="card">
+        <h3>${title}</h3>
+        <p class="intro">Ingen data for denne periode.</p>
+      </article>
+    `;
+  }
+
+  const maxRevenue = Math.max(1, ...series.map((point) => point.revenue));
+  const bars = series
+    .map((point) => {
+      const heightPercent = Math.round((point.revenue / maxRevenue) * 85);
+      const tooltip = Number.isFinite(point.orders)
+        ? `${formatDkk(point.revenue)} (${point.orders} ordrer)`
+        : formatDkk(point.revenue);
+      return `
+        <div class="chart-bar-col" title="${tooltip}">
+          <p class="chart-bar-value">${formatDkk(point.revenue)}</p>
+          <div class="chart-bar" style="height: ${heightPercent}%"></div>
+          <p class="chart-bar-label">${point.label}</p>
+        </div>
+      `;
+    })
+    .join("");
+
+  return `
+    <article class="card">
+      <h3>${title}</h3>
+      <div class="chart-bars">${bars}</div>
+    </article>
+  `;
 }
 
-function writeSiteContentToInputs(content) {
-  siteHeroTitleInput.value = content.heroTitle || "";
-  siteHeroIntro1Input.value = content.heroIntro1 || "";
-  siteHeroIntro2Input.value = content.heroIntro2 || "";
-  siteAboutText1Input.value = content.aboutText1 || "";
-  siteAboutText2Input.value = content.aboutText2 || "";
-  siteContactEmailInput.value = content.contactEmail || "";
-  siteContactPhoneInput.value = content.contactPhone || "";
-  siteBoothAddressInput.value = content.boothAddress || "";
-  siteOpeningHoursInput.value = content.openingHours || "";
+function renderStatsChart(series) {
+  if (!series) {
+    statsChart.innerHTML = "";
+    return;
+  }
+
+  lastAppMonthlySeries = series.monthlyApp || series.monthly || [];
+
+  const dailyExcel = Array.isArray(series.dailyExcel) ? series.dailyExcel : [];
+  const dailyApp = Array.isArray(series.dailyApp) ? series.dailyApp : [];
+  const monthlyExcel = Array.isArray(series.monthlyExcel) ? series.monthlyExcel : [];
+  const monthlyApp = Array.isArray(series.monthlyApp) ? series.monthlyApp : [];
+
+  statsChart.innerHTML = `
+    ${renderChartBars("Omsætning - seneste 7 kalenderdage (Excel)", dailyExcel.length ? dailyExcel : [])}
+    ${renderChartBars("Omsætning - sidste 7 dage (App)", dailyApp.length ? dailyApp : [])}
+    ${renderChartBars("Omsætning - sidste 6 måneder (Excel)", monthlyExcel.length ? monthlyExcel : [])}
+    ${renderChartBars("Omsætning - sidste 6 måneder (App)", monthlyApp.length ? monthlyApp : [])}
+  `;
+
+  renderAccountingComparison();
+}
+
+function setAccountingMessage(text, type) {
+  accountingMessage.textContent = text;
+  accountingMessage.classList.remove("ok", "warn");
+  if (type) {
+    accountingMessage.classList.add(type);
+  }
+}
+
+function renderAccountingComparison() {
+  if (!lastImportedAccounting || !lastImportedAccounting.importedAt) {
+    accountingSummary.innerHTML = "<p>Ingen regnskabsfil importeret endnu.</p>";
+    return;
+  }
+
+  const accountingByMonth = new Map((lastImportedAccounting.monthly || []).map((entry) => [entry.month, entry]));
+  const appByMonth = new Map(lastAppMonthlySeries.map((entry) => [entry.month, entry]));
+  const allMonths = [...new Set([...accountingByMonth.keys(), ...appByMonth.keys()])].sort();
+
+  const rows = allMonths
+    .map((month) => {
+      const appEntry = appByMonth.get(month);
+      const accountingEntry = accountingByMonth.get(month);
+      const appRevenue = appEntry ? appEntry.revenue : 0;
+      const accountingRevenue = accountingEntry ? accountingEntry.revenue : 0;
+      const accountingExpense = accountingEntry ? accountingEntry.expense : 0;
+      const diff = accountingRevenue - appRevenue;
+      const label = accountingEntry?.label || appEntry?.label || month;
+      const diffClass = diff > 0 ? "diff-positive" : diff < 0 ? "diff-negative" : "";
+
+      return `
+        <tr>
+          <td>${label}</td>
+          <td>${formatDkk(appRevenue)}</td>
+          <td>${formatDkk(accountingRevenue)}</td>
+          <td>${formatDkk(accountingExpense)}</td>
+          <td class="${diffClass}">${formatDkk(diff)}</td>
+        </tr>
+      `;
+    })
+    .join("");
+
+  accountingSummary.innerHTML = `
+    <p>Sidst importeret: ${new Date(lastImportedAccounting.importedAt).toLocaleString("da-DK")} (${lastImportedAccounting.fileName || "ukendt fil"}) - ${lastImportedAccounting.rowCount} rækker brugt${lastImportedAccounting.skippedCount ? `, ${lastImportedAccounting.skippedCount} sprunget over` : ""}.</p>
+    ${lastImportedAccounting.watchedFilePath ? `<p>Automatisk opdatering aktiv fra: ${lastImportedAccounting.watchedFilePath}</p>` : ""}
+    ${lastImportedAccounting.unmatchedSheets?.length ? `<p>Ignorerede faneblade (kunne ikke genkendes): ${lastImportedAccounting.unmatchedSheets.join(", ")}</p>` : ""}
+    ${renderAccountingTotalsKpis(lastImportedAccounting.monthly || [], lastImportedAccounting.groups || [])}
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Måned</th>
+          <th>App-ordrer</th>
+          <th>Regnskab oms.</th>
+          <th>Regnskab udgift</th>
+          <th>Diff (regnskab - app)</th>
+        </tr>
+      </thead>
+      <tbody>${rows || "<tr><td colspan=\"5\">Ingen data</td></tr>"}</tbody>
+    </table>
+    ${renderCategoryChart(lastImportedAccounting.categories || [])}
+    ${renderMonthlyCategoryCharts(lastImportedAccounting.monthly || [])}
+  `;
+}
+
+function renderAccountingTotalsKpis(monthly, groups) {
+  if (!monthly.length) {
+    return "";
+  }
+
+  const totalRevenue = monthly.reduce((sum, month) => sum + month.revenue, 0);
+  const totalExpense = monthly.reduce((sum, month) => sum + month.expense, 0);
+  const result = totalRevenue - totalExpense;
+  const resultClass = result >= 0 ? "diff-positive" : "diff-negative";
+
+  const groupCards = (groups || [])
+    .slice()
+    .sort((a, b) => {
+      const order = ["Smykker", "Keramik"];
+      const indexA = order.indexOf(a.group);
+      const indexB = order.indexOf(b.group);
+      if (indexA === -1 && indexB === -1) return a.group.localeCompare(b.group);
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    })
+    .map((group) => {
+      const groupResult = group.revenue - group.expense;
+      const groupResultClass = groupResult >= 0 ? "diff-positive" : "diff-negative";
+      return `
+        <article class="kpi-card">
+          <p class="kpi-label">${group.group}</p>
+          <p>Solgt for: ${formatDkk(group.revenue)}</p>
+          <p>Udgifter: ${formatDkk(group.expense)}</p>
+          <p class="${groupResultClass}">Resultat: ${formatDkk(groupResult)}</p>
+        </article>
+      `;
+    })
+    .join("");
+
+  return `
+    <div class="stats-grid">
+      <article class="kpi-card">
+        <p class="kpi-label">Solgt for i alt</p>
+        <p class="kpi-value">${formatDkk(totalRevenue)}</p>
+      </article>
+      <article class="kpi-card">
+        <p class="kpi-label">Udgifter i alt</p>
+        <p class="kpi-value">${formatDkk(totalExpense)}</p>
+      </article>
+      <article class="kpi-card">
+        <p class="kpi-label">Resultat (oms. - udgift)</p>
+        <p class="kpi-value ${resultClass}">${formatDkk(result)}</p>
+      </article>
+    </div>
+    ${groupCards ? `<div class="stats-grid">${groupCards}</div>` : ""}
+  `;
+}
+
+function groupCategoriesByGroup(categories) {
+  const groups = new Map();
+  categories.forEach((entry) => {
+    const groupName = entry.group || "Andet";
+    if (!groups.has(groupName)) {
+      groups.set(groupName, []);
+    }
+    groups.get(groupName).push(entry);
+  });
+
+  const groupOrder = ["Smykker", "Keramik"];
+  return [...groups.entries()].sort(([a], [b]) => {
+    const indexA = groupOrder.indexOf(a);
+    const indexB = groupOrder.indexOf(b);
+    if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+    if (indexA === -1) return 1;
+    if (indexB === -1) return -1;
+    return indexA - indexB;
+  });
+}
+
+function renderCategoryChart(categories) {
+  if (!categories.length) {
+    return "";
+  }
+
+  return groupCategoriesByGroup(categories)
+    .map(([groupName, entries]) => {
+      const series = entries.map((entry) => ({ label: entry.category, revenue: entry.revenue }));
+      return renderChartBars(`Omsætning pr. kategori - ${groupName} (alle måneder)`, series);
+    })
+    .join("");
+}
+
+function renderMonthlyCategoryCharts(monthly) {
+  const monthsWithData = monthly.filter((month) => month.revenue > 0 || (month.categories || []).length);
+  if (!monthsWithData.length) {
+    return "";
+  }
+
+  const charts = monthsWithData
+    .map((month) => {
+      const grouped = groupCategoriesByGroup(month.categories || []);
+      return grouped
+        .map(([groupName, entries]) => {
+          const groupTotal = entries.reduce((sum, entry) => sum + entry.revenue, 0);
+          const series = [
+            { label: "I alt", revenue: groupTotal },
+            ...entries.map((entry) => ({ label: entry.category, revenue: entry.revenue }))
+          ];
+          return renderChartBars(`${month.label} - ${groupName}`, series);
+        })
+        .join("");
+    })
+    .join("");
+
+  return `<h3>Omsætning pr. måned og kategori</h3>${charts}`;
+}
+
+function readFileAsBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || "");
+      const base64 = result.includes(",") ? result.split(",")[1] : result;
+      resolve(base64);
+    };
+    reader.onerror = () => reject(new Error("Kunne ikke læse filen"));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function loadAccounting() {
+  const token = getToken();
+  if (!token) {
+    return;
+  }
+
+  const response = await fetch(resolveApiUrl("/api/admin/accounting"), {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  const data = await response.json().catch(() => ({}));
+  if (response.ok) {
+    lastImportedAccounting = data.accounting;
+    renderAccountingComparison();
+  }
+}
+
+async function importAccounting() {
+  const token = getToken();
+  const file = accountingFileInput.files?.[0];
+
+  if (!file) {
+    setAccountingMessage("Vælg en .xlsx-fil først", "warn");
+    return;
+  }
+
+  importAccountingBtn.disabled = true;
+  importAccountingBtn.textContent = "Importerer...";
+  setAccountingMessage("Importerer regnskab...", "");
+
+  try {
+    const contentBase64 = await readFileAsBase64(file);
+    const response = await fetch(resolveApiUrl("/api/admin/accounting/import"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ fileName: file.name, contentBase64 })
+    });
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error || "Kunne ikke importere regnskab");
+    }
+
+    lastImportedAccounting = data.accounting;
+    renderAccountingComparison();
+    setAccountingMessage(`Regnskab importeret: ${data.accounting.rowCount} rækker brugt.`, "ok");
+    accountingFileInput.value = "";
+  } catch (error) {
+    setAccountingMessage(error.message || "Der opstod en fejl ved import", "warn");
+  } finally {
+    importAccountingBtn.disabled = false;
+    importAccountingBtn.textContent = "Importér regnskab";
+  }
+}
+
+function setAccountingWatchMessage(text, type) {
+  accountingWatchMessage.textContent = text;
+  accountingWatchMessage.classList.remove("ok", "warn");
+  if (type) {
+    accountingWatchMessage.classList.add(type);
+  }
+}
+
+async function startAccountingWatch() {
+  const token = getToken();
+  const filePath = accountingWatchPathInput.value.trim();
+
+  if (!filePath) {
+    setAccountingWatchMessage("Angiv en filsti", "warn");
+    return;
+  }
+
+  startWatchBtn.disabled = true;
+  startWatchBtn.textContent = "Starter...";
+  setAccountingWatchMessage("Læser fil og starter overvågning...", "");
+
+  try {
+    const response = await fetch(resolveApiUrl("/api/admin/accounting/watch"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ filePath })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error || "Kunne ikke starte automatisk opdatering");
+    }
+
+    lastImportedAccounting = data.accounting;
+    renderAccountingComparison();
+    setAccountingWatchMessage("Automatisk opdatering er nu aktiv.", "ok");
+  } catch (error) {
+    setAccountingWatchMessage(error.message || "Der opstod en fejl", "warn");
+  } finally {
+    startWatchBtn.disabled = false;
+    startWatchBtn.textContent = "Start automatisk opdatering";
+  }
+}
+
+async function stopAccountingWatch() {
+  const token = getToken();
+  stopWatchBtn.disabled = true;
+
+  try {
+    const response = await fetch(resolveApiUrl("/api/admin/accounting/unwatch"), {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error || "Kunne ikke stoppe automatisk opdatering");
+    }
+
+    await loadAccounting();
+    setAccountingWatchMessage("Automatisk opdatering er stoppet.", "ok");
+  } catch (error) {
+    setAccountingWatchMessage(error.message || "Der opstod en fejl", "warn");
+  } finally {
+    stopWatchBtn.disabled = false;
+  }
+}
+
+function startAccountingPolling() {
+  stopAccountingPolling();
+  accountingPollTimer = setInterval(loadAccounting, 30000);
+}
+
+function stopAccountingPolling() {
+  if (accountingPollTimer) {
+    clearInterval(accountingPollTimer);
+    accountingPollTimer = null;
+  }
 }
 
 function showAdmin() {
@@ -140,16 +501,21 @@ function showAdmin() {
 function showLogin() {
   adminPanel.classList.add("hidden");
   loginPanel.classList.remove("hidden");
+  stopAccountingPolling();
 }
 
 function setAdminTab(tabName) {
-  const showingActive = tabName !== "finished";
+  const showingActive = tabName === "active";
+  const showingFinished = tabName === "finished";
+  const showingRevenue = tabName === "revenue";
 
   activeTabBtn.classList.toggle("active", showingActive);
-  finishedTabBtn.classList.toggle("active", !showingActive);
+  finishedTabBtn.classList.toggle("active", showingFinished);
+  revenueTabBtn.classList.toggle("active", showingRevenue);
 
   activeOrdersSection.classList.toggle("hidden", !showingActive);
-  finishedOrdersSection.classList.toggle("hidden", showingActive);
+  finishedOrdersSection.classList.toggle("hidden", !showingFinished);
+  revenueSection.classList.toggle("hidden", !showingRevenue);
 }
 
 async function login() {
@@ -185,6 +551,8 @@ async function login() {
     await loadOrders();
     await loadArchivedOrders();
     await loadStats();
+    await loadAccounting();
+    startAccountingPolling();
   } catch (error) {
     setLoginMessage(error.message, "warn");
   } finally {
@@ -223,6 +591,7 @@ function renderOrders(orders) {
           <div class="actions">
             <select class="status-select">${options}</select>
             <button class="secondary save-status" type="button">Gem status</button>
+            <button class="danger delete-order" type="button">Slet ordre</button>
           </div>
         </article>
       `;
@@ -237,6 +606,14 @@ function renderOrders(orders) {
       await updateOrderStatus(orderId, select.value);
     });
   });
+
+  document.querySelectorAll(".delete-order").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const card = button.closest("[data-order-id]");
+      const orderId = card.dataset.orderId;
+      await deleteOrder(orderId);
+    });
+  });
 }
 
 function renderArchivedOrders(orders) {
@@ -245,8 +622,39 @@ function renderArchivedOrders(orders) {
     return;
   }
 
-  archivedOrdersList.innerHTML = orders
-    .map((order) => {
+  const now = new Date();
+  const recentCutoff = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+  const monthFormatter = new Intl.DateTimeFormat("da-DK", { month: "long", year: "numeric" });
+  const groupedOrders = new Map();
+
+  orders.forEach((order) => {
+    const archiveDate = new Date(order.archivedAt || order.createdAt);
+    const validDate = Number.isNaN(archiveDate.getTime()) ? now : archiveDate;
+    const year = String(validDate.getFullYear());
+    const monthKey = `${year}-${String(validDate.getMonth() + 1).padStart(2, "0")}`;
+    const groupType = validDate < recentCutoff ? "year" : "month";
+    const groupKey = groupType === "year" ? year : monthKey;
+
+    if (!groupedOrders.has(groupKey)) {
+      groupedOrders.set(groupKey, {
+        type: groupType,
+        label: groupType === "year" ? year : monthFormatter.format(validDate),
+        sortKey: groupKey,
+        months: new Map()
+      });
+    }
+
+    const group = groupedOrders.get(groupKey);
+    if (!group.months.has(monthKey)) {
+      group.months.set(monthKey, {
+        label: monthFormatter.format(validDate),
+        orders: []
+      });
+    }
+    group.months.get(monthKey).orders.push(order);
+  });
+
+  const renderOrder = (order) => {
       const items = (order.items || [])
         .map((item, index) => {
           const amountText = Number.isFinite(Number(item.priceDkk)) ? ` - ${formatDkk(Number(item.priceDkk))}` : "";
@@ -266,9 +674,38 @@ function renderArchivedOrders(orders) {
           <ul>${items}</ul>
           <div class="actions">
             <button class="secondary restore-order" type="button">Gendan ordre</button>
+            <button class="danger delete-archived-order" type="button">Slet ordre</button>
           </div>
         </article>
       `;
+  };
+
+  const renderMonth = (month) => `
+    <details class="archive-month">
+      <summary>${month.label} <span>${month.orders.length} ordrer</span></summary>
+      <div class="archive-orders">${month.orders.map(renderOrder).join("")}</div>
+    </details>
+  `;
+
+  archivedOrdersList.innerHTML = [...groupedOrders.values()]
+    .sort((first, second) => second.sortKey.localeCompare(first.sortKey))
+    .map((group) => {
+      const months = [...group.months.entries()]
+        .sort(([firstKey], [secondKey]) => secondKey.localeCompare(firstKey))
+        .map(([, month]) => renderMonth(month))
+        .join("");
+
+      if (group.type === "year") {
+        const orderCount = [...group.months.values()].reduce((sum, month) => sum + month.orders.length, 0);
+        return `
+          <details class="archive-year">
+            <summary>${group.label} <span>${orderCount} ordrer</span></summary>
+            <div class="archive-months">${months}</div>
+          </details>
+        `;
+      }
+
+      return months;
     })
     .join("");
 
@@ -279,6 +716,43 @@ function renderArchivedOrders(orders) {
       await restoreArchivedOrder(orderId);
     });
   });
+
+  document.querySelectorAll(".delete-archived-order").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const card = button.closest("[data-archived-order-id]");
+      const orderId = card.dataset.archivedOrderId;
+      await deleteOrder(orderId);
+    });
+  });
+}
+
+async function deleteOrder(orderId) {
+  const token = getToken();
+  if (!token) {
+    return;
+  }
+
+  const confirmed = window.confirm("Er du sikker på, at du vil slette denne ordre?");
+  if (!confirmed) {
+    return;
+  }
+
+  const response = await fetch(resolveApiUrl(`/api/admin/orders/${orderId}`), {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    alert(data.error || "Kunne ikke slette ordre");
+    return;
+  }
+
+  await loadOrders();
+  await loadArchivedOrders();
+  await loadStats();
 }
 
 async function loadOrders() {
@@ -324,65 +798,6 @@ async function loadStats() {
   }
 
   renderStats(data.stats);
-}
-
-async function loadSiteContent() {
-  const token = getToken();
-  if (!token) {
-    return;
-  }
-
-  setSiteContentMessage("Henter forside...", "");
-  const response = await fetch(resolveApiUrl("/api/admin/site-content"), {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok || !data.content) {
-    setSiteContentMessage(data.error || "Kunne ikke hente forsideindhold", "warn");
-    return;
-  }
-
-  writeSiteContentToInputs(data.content);
-  setSiteContentMessage("Forsideindhold hentet", "ok");
-}
-
-async function saveSiteContent() {
-  const token = getToken();
-  if (!token) {
-    return;
-  }
-
-  const payload = siteContentPayloadFromInputs();
-  saveSiteContentBtn.disabled = true;
-  saveSiteContentBtn.textContent = "Gemmer...";
-  setSiteContentMessage("Gemmer forside...", "");
-
-  try {
-    const response = await fetch(resolveApiUrl("/api/admin/site-content"), {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) {
-      throw new Error(data.error || "Kunne ikke gemme forsideindhold");
-    }
-
-    writeSiteContentToInputs(data.content || payload);
-    setSiteContentMessage("Forside gemt. Opdater forsiden for at se ændringen.", "ok");
-  } catch (error) {
-    setSiteContentMessage(error.message || "Der opstod en fejl", "warn");
-  } finally {
-    saveSiteContentBtn.disabled = false;
-    saveSiteContentBtn.textContent = "Gem forside";
-  }
 }
 
 async function loadArchivedOrders() {
@@ -452,32 +867,87 @@ async function updateOrderStatus(orderId, status) {
   await loadStats();
 }
 
+function setChangePasswordMessage(text, type) {
+  changePasswordMessage.textContent = text;
+  changePasswordMessage.classList.remove("ok", "warn");
+  if (type) {
+    changePasswordMessage.classList.add(type);
+  }
+}
+
+async function changePassword() {
+  const token = getToken();
+  const currentPassword = currentPasswordInput.value;
+  const newPassword = newPasswordInput.value;
+
+  if (!currentPassword || newPassword.length < 6) {
+    setChangePasswordMessage("Udfyld nuværende password og et nyt password på mindst 6 tegn", "warn");
+    return;
+  }
+
+  changePasswordBtn.disabled = true;
+  changePasswordBtn.textContent = "Skifter...";
+
+  try {
+    const response = await fetch(resolveApiUrl("/api/admin/change-password"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error || "Kunne ikke skifte adgangskode");
+    }
+
+    currentPasswordInput.value = "";
+    newPasswordInput.value = "";
+    setChangePasswordMessage("Adgangskode opdateret", "ok");
+  } catch (error) {
+    setChangePasswordMessage(error.message || "Der opstod en fejl", "warn");
+  } finally {
+    changePasswordBtn.disabled = false;
+    changePasswordBtn.textContent = "Skift adgangskode";
+  }
+}
+
+changePasswordBtn.addEventListener("click", changePassword);
+importAccountingBtn.addEventListener("click", importAccounting);
+startWatchBtn.addEventListener("click", startAccountingWatch);
+stopWatchBtn.addEventListener("click", stopAccountingWatch);
+
 loginBtn.addEventListener("click", login);
 passwordInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     login();
   }
 });
-refreshBtn.addEventListener("click", loadOrders);
-refreshBtn.addEventListener("click", loadArchivedOrders);
-refreshBtn.addEventListener("click", loadStats);
-refreshBtn.addEventListener("click", loadSiteContent);
+refreshActiveBtn.addEventListener("click", async () => {
+  await loadOrders();
+  await loadStats();
+});
+refreshFinishedBtn.addEventListener("click", async () => {
+  await loadArchivedOrders();
+  await loadStats();
+});
 logoutBtn.addEventListener("click", () => {
   clearToken();
   showLogin();
 });
 activeTabBtn.addEventListener("click", () => setAdminTab("active"));
 finishedTabBtn.addEventListener("click", () => setAdminTab("finished"));
-reloadSiteContentBtn.addEventListener("click", loadSiteContent);
-saveSiteContentBtn.addEventListener("click", saveSiteContent);
+revenueTabBtn.addEventListener("click", () => setAdminTab("revenue"));
 
 if (getToken()) {
   showAdmin();
-  setAdminTab("active");
+  setAdminTab(window.location.hash === "#finished" ? "finished" : "active");
   loadOrders();
   loadArchivedOrders();
   loadStats();
-  loadSiteContent();
+  loadAccounting();
+  startAccountingPolling();
 } else {
   showLogin();
 }

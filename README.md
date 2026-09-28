@@ -124,6 +124,25 @@ Hvis du vil have et "abonnement" på selve hjemmesiden (domæne + hosting + sikk
 - `npm run check:health`
   - Tjekker at API svarer på `/api/health` lokalt.
 
+## Test af side-load og fejl
+Denne test aabner alle `.html` sider i `public/` og fejler hvis der er load-fejl, fx:
+- JavaScript-fejl i browseren (`pageerror`)
+- `console.error`
+- netvaerksfejl (`requestfailed`)
+- HTTP-fejl (status `>= 400`)
+
+Koer foerste gang (engangs-setup af browser):
+- `npm run test:pages:install`
+
+Koer selve testen:
+- `npm run test:pages`
+
+Tip:
+- Testen bruger `http://localhost:3000` som standard.
+- Hvis serveren ikke koerer, starter testen den automatisk.
+- Du kan pege paa en anden URL ved at saette `BASE_URL`, fx:
+  - PowerShell: `$env:BASE_URL="http://localhost:3001"; npm run test:pages`
+
 ## Go-live tjekliste
 1. Sæt stærk `ADMIN_PASSWORD` i hostens miljøvariabler.
 2. Sæt `NODE_ENV=production`.

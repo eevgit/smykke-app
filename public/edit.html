@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rediger forside - HosEjbye</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <p class="eyebrow">Butiksejer</p>
+      <h1>Admin login</h1>
+      <p class="intro">Log ind for at se og opdatere ordrer.</p>
+      <p class="intro"><a class="admin-link" href="index.html">Tilbage til HosEjbye</a></p>
+    </header>
+
+    <section class="panel card">
+      <nav class="actions" aria-label="Admin menu">
+        <a class="admin-switch-link" href="ejer-login.html">Aktive ordrer</a>
+        <a class="admin-switch-link" href="ejer-login.html#finished">Færdige ordrer</a>
+        <a class="admin-switch-link active" href="edit.html">Rediger forside</a>
+        <a class="admin-switch-link" href="produkter.html">Produkter</a>
+      </nav>
+      <div class="actions">
+        <button id="logoutBtn" type="button" class="secondary">Log ud</button>
+      </div>
+
+      <h2>Rediger forside</h2>
+      <div class="checkout-form">
+        <label for="siteHeroTitleInput">Hovedtitel</label>
+        <input id="siteHeroTitleInput" type="text" placeholder="HosEjbye" />
+
+        <label for="siteHeroIntro1Input">Intro linje 1</label>
+        <textarea id="siteHeroIntro1Input" rows="2"></textarea>
+
+        <label for="siteHeroIntro2Input">Intro linje 2</label>
+        <textarea id="siteHeroIntro2Input" rows="2"></textarea>
+
+        <label for="siteAboutText1Input">Om virksomheden linje 1</label>
+        <textarea id="siteAboutText1Input" rows="2"></textarea>
+
+        <label for="siteAboutText2Input">Om virksomheden linje 2</label>
+        <textarea id="siteAboutText2Input" rows="2"></textarea>
+
+        <div class="checkout-inline">
+          <div>
+            <label for="siteContactEmailInput">Email</label>
+            <input id="siteContactEmailInput" type="text" />
+          </div>
+          <div>
+            <label for="siteInstagramNameInput">Instagram navn</label>
+            <input id="siteInstagramNameInput" type="text" placeholder="@hosejbye" />
+          </div>
+        </div>
+
+        <div class="checkout-inline">
+          <div>
+            <label for="siteBoothAddressInput">Adresse/Bod</label>
+            <input id="siteBoothAddressInput" type="text" />
+          </div>
+          <div>
+            <label for="siteOpeningHoursInput">Åbningstid</label>
+            <input id="siteOpeningHoursInput" type="text" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="reloadSiteContentBtn" type="button" class="secondary">Hent indhold</button>
+          <button id="saveSiteContentBtn" type="button" class="primary">Gem forside</button>
+          <a class="admin-switch-link" href="index.html" target="_blank" rel="noopener">Se kundeside</a>
+        </div>
+        <p id="siteContentMessage" class="order-message"></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="edit.js"></script>
+</body>
+</html>

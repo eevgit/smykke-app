@@ -1,0 +1,186 @@
+[
+  {
+    "id": "b3",
+    "type": "jewelry",
+    "category": "keyring",
+    "categoryLabel": "Nøglering",
+    "name": "Håndlavet Samling 1",
+    "images": [
+      "assets/Design uden navn.png"
+    ],
+    "price": 50,
+    "length": "8 cm",
+    "description": "Unik håndlavet nøglering.",
+    "stock": 1
+  },
+  {
+    "id": "b3b",
+    "type": "jewelry",
+    "category": "keyring",
+    "categoryLabel": "Nøglering",
+    "name": "Perle nøglering - Beige mix",
+    "images": [
+      "assets/Design uden navn (4).png"
+    ],
+    "price": 65,
+    "length": "7 cm",
+    "description": "Smuk håndlavet nøglering med beige og neutrale perler.",
+    "stock": 1
+  },
+  {
+    "id": "b3c",
+    "type": "jewelry",
+    "category": "keyring",
+    "categoryLabel": "Nøglering",
+    "name": "Perle nøglering - Grønne nuancer",
+    "images": [
+      "assets/Design uden navn (6).png"
+    ],
+    "price": 75,
+    "length": "8 cm",
+    "description": "Elegant nøglering med grønne og varme jordfarver.",
+    "stock": 1
+  },
+  {
+    "id": "b4",
+    "type": "jewelry",
+    "category": "bracelet",
+    "categoryLabel": "Armbånd",
+    "name": "Grønt armbånd med skiftevis 8 mm og små perler",
+    "images": [
+      "assets/Design uden navn (1).png"
+    ],
+    "price": 100,
+    "length": "18,0 cm",
+    "description": "Personligt designet armbånd med varme jordfarver og fine perledetaljer.",
+    "stock": 1
+  },
+  {
+    "id": "b5",
+    "type": "jewelry",
+    "category": "bracelet",
+    "categoryLabel": "Armbånd",
+    "name": "Håndlavet Samling 3",
+    "images": [
+      "assets/Design uden navn (2).png"
+    ],
+    "price": 100,
+    "length": "18,2 cm",
+    "description": "Smykt armbånd med blanding af neutrale og varme toner. Perfekt til hverdagen.",
+    "stock": 1
+  },
+  {
+    "id": "b6",
+    "type": "jewelry",
+    "category": "necklace",
+    "categoryLabel": "Halskæde",
+    "name": "10 mm perlehalskæde i lyse nuancer",
+    "images": [
+      "assets/Design uden navn (3).png"
+    ],
+    "price": 200,
+    "length": "17,8 cm",
+    "description": "Justerbar halskæde med lyse perler i forskellige nuancer.",
+    "stock": 1
+  },
+  {
+    "id": "b7",
+    "type": "jewelry",
+    "category": "necklace",
+    "categoryLabel": "Halskæde",
+    "name": "Mixet perlehalskæde",
+    "images": [
+      "assets/Design uden navn (5).png"
+    ],
+    "price": 225,
+    "length": "40,0 cm",
+    "description": "Smuk håndlavet halskæde med delikate perler og justerbar lås.",
+    "stock": 1
+  },
+  {
+    "id": "b9",
+    "type": "jewelry",
+    "category": "necklace",
+    "categoryLabel": "Halskæde",
+    "name": "8 mm perlehalskæde i brunlige nuancer",
+    "images": [
+      "assets/Design uden navn (11).png"
+    ],
+    "price": 150,
+    "length": "40 cm",
+    "description": "Halskæde med perler i størrelse 8 mm i forskellige brunlige nuancer og med justerbar lås.",
+    "stock": 1
+  },
+  {
+    "id": "b10",
+    "type": "jewelry",
+    "category": "necklace",
+    "categoryLabel": "Halskæde",
+    "name": "10 mm perlehalskæde i lysegrønne nuancer",
+    "images": [
+      "assets/Design uden navn (12).png"
+    ],
+    "price": 180,
+    "length": "18,0 cm",
+    "description": "Flot håndlavet halskæde med lysegrønne 10 mm perler.",
+    "stock": 1
+  },
+  {
+    "id": "b11",
+    "type": "jewelry",
+    "category": "necklace",
+    "categoryLabel": "Halskæde",
+    "name": "10 mm perlehalskæde i lyserød/pink nuancer",
+    "images": [
+      "assets/Design uden navn (13).png"
+    ],
+    "price": 180,
+    "length": "18,5 cm",
+    "description": "Elegant halskæde med 10 mm perler i lyserød/pinke nuancer.",
+    "stock": 1
+  },
+  {
+    "id": "ceramic-cup",
+    "type": "ceramic",
+    "category": "cup",
+    "categoryLabel": "Kopper",
+    "name": "Espressokop - Lerhvid",
+    "images": [
+      "assets/Design uden navn (9).png",
+      "assets/Design uden navn (10).png"
+    ],
+    "price": 229,
+    "length": "Keramik",
+    "description": "Volumen 180 ml. Mat finish med prikker. Egnet til mad. Kan komme i opvaskemaskinen.",
+    "stock": 3
+  },
+  {
+    "id": "ceramic-bowl",
+    "type": "ceramic",
+    "category": "bowl",
+    "categoryLabel": "Skåle",
+    "name": "Skål - Havgrøn glasur",
+    "images": [
+      "assets/Design uden navn (8).png"
+    ],
+    "price": 279,
+    "length": "Keramik",
+    "description": "Diameter 14 cm. Velegnet til snack og morgenmad. Egnet til mad. Kan komme i opvaskemaskinen.",
+    "stock": 3
+  },
+  {
+    "id": "ceramic-vase",
+    "type": "ceramic",
+    "category": "vase",
+    "categoryLabel": "Vaser",
+    "name": "Vase - Sandtone",
+    "images": [
+      "assets/Design uden navn (12).png",
+      "assets/Design uden navn (13).png"
+    ],
+    "price": 349,
+    "length": "Keramik",
+    "description": "Højde 22 cm. God til tørrede blomster. Egnet til mad. Kan komme i opvaskemaskinen.",
+    "stock": 3
+  }
+]

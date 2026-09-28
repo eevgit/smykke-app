@@ -1,0 +1,19 @@
+{
+  "name": "HosEjbye Studio",
+  "short_name": "HosEjbye",
+  "description": "Smykker og keramik - bestil direkte fra HosEjbye Studio.",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#2a2420",
+  "theme_color": "#8ab8c1",
+  "lang": "da",
+  "icons": [
+    {
+      "src": "assets/card-lager.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

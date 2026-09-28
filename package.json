@@ -7,9 +7,21 @@
   "scripts": {
     "start": "node server.js",
     "backup:data": "node scripts/backup-data.js",
-    "check:health": "powershell -Command \"Invoke-WebRequest -UseBasicParsing http://localhost:3000/api/health | Select-Object -ExpandProperty Content\""
+    "check:health": "powershell -Command \"Invoke-WebRequest -UseBasicParsing http://localhost:3000/api/health | Select-Object -ExpandProperty Content\"",
+    "test:pages": "node scripts/test-pages-load.js",
+    "test:flow": "node scripts/test-order-flow.js",
+    "test:pages:install": "playwright install chromium"
+  },
+  "devDependencies": {
+    "playwright": "1.55.0"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
   }
 }

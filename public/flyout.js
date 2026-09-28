@@ -3,11 +3,29 @@
     { href: "index.html", label: "Start" },
     { href: "lager.html", label: "Smykker" },
     { href: "design.html", label: "Design" },
-    { href: "checkout.html", label: "Checkout" },
-    { href: "keramik.html", label: "Keramik" }
+    { href: "keramik.html", label: "Keramik" },
+    { href: "checkout.html", label: "Checkout" }
+    
   ];
 
+  if (!document.querySelector('link[rel="manifest"]')) {
+    const manifestLink = document.createElement("link");
+    manifestLink.rel = "manifest";
+    manifestLink.href = "manifest.json";
+    document.head.appendChild(manifestLink);
+  }
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("service-worker.js").catch(() => {
+        // Offline support is a nice-to-have; ignore registration failures.
+      });
+    });
+  }
+
   const currentPath = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
+  const body = document.body;
+  body.classList.add("has-flyout");
 
   const wrapper = document.createElement("div");
   wrapper.className = "flyout-shell";
@@ -20,7 +38,7 @@
     .join("");
 
   wrapper.innerHTML = `
-    <button class="flyout-toggle" type="button" aria-label="Toggle menu">☰</button>
+    <button class="flyout-toggle" type="button" aria-label="Skjul menu" aria-expanded="true">☰</button>
     <div class="flyout-head">
       <p>Menu</p>
     </div>
@@ -31,12 +49,18 @@
     </aside>
   `;
 
-  document.body.appendChild(wrapper);
+  const appShell = document.querySelector(".app-shell");
+  if (appShell && appShell.parentNode) {
+    appShell.parentNode.insertBefore(wrapper, appShell);
+  } else {
+    document.body.appendChild(wrapper);
+  }
 
   const toggle = wrapper.querySelector(".flyout-toggle");
-  const shell = wrapper;
 
   toggle.addEventListener("click", () => {
-    shell.classList.toggle("collapsed");
+    const collapsed = body.classList.toggle("flyout-collapsed");
+    toggle.setAttribute("aria-expanded", String(!collapsed));
+    toggle.setAttribute("aria-label", collapsed ? "Vis menu" : "Skjul menu");
   });
 })();

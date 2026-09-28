@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produkter - HosEjbye</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <p class="eyebrow">Butiksejer</p>
+      <h1>Produktstyring</h1>
+      <p class="intro">Tilføj, redigér og fjern smykker og keramik. Ændringer slår igennem på Smykker- og Keramik-siderne med det samme.</p>
+      <p class="intro"><a class="admin-link" href="index.html">Tilbage til HosEjbye</a></p>
+    </header>
+
+    <section class="panel card">
+      <nav class="actions" aria-label="Admin menu">
+        <a class="admin-switch-link" href="ejer-login.html">Aktive ordrer</a>
+        <a class="admin-switch-link" href="ejer-login.html#finished">Færdige ordrer</a>
+        <a class="admin-switch-link" href="edit.html">Rediger forside</a>
+        <a class="admin-switch-link active" href="produkter.html">Produkter</a>
+      </nav>
+      <div class="actions">
+        <button id="logoutBtn" type="button" class="secondary">Log ud</button>
+      </div>
+
+      <h2 id="formTitle">Tilføj produkt</h2>
+      <div class="checkout-form">
+        <div class="checkout-inline">
+          <div>
+            <label for="productType">Type</label>
+            <select id="productType">
+              <option value="jewelry">Smykke</option>
+              <option value="ceramic">Keramik</option>
+            </select>
+          </div>
+          <div>
+            <label for="productCategory">Kategori (kode)</label>
+            <input id="productCategory" type="text" placeholder="fx bracelet, cup" />
+          </div>
+        </div>
+
+        <label for="productCategoryLabel">Kategorinavn (vises på siden)</label>
+        <input id="productCategoryLabel" type="text" placeholder="fx Armbånd" />
+
+        <label for="productName">Navn</label>
+        <input id="productName" type="text" placeholder="Produktnavn" />
+
+        <div class="checkout-inline">
+          <div>
+            <label for="productPrice">Pris (DKK)</label>
+            <input id="productPrice" type="number" min="0" placeholder="150" />
+          </div>
+          <div>
+            <label for="productStock">Antal på lager</label>
+            <input id="productStock" type="number" min="0" placeholder="1" />
+          </div>
+        </div>
+
+        <label for="productLength">Længde/mål</label>
+        <input id="productLength" type="text" placeholder="fx 18,0 cm" />
+
+        <label for="productDescription">Beskrivelse</label>
+        <textarea id="productDescription" rows="3"></textarea>
+
+        <label for="productImages">Billeder (en fil-sti pr. linje, fx assets/mit-billede.png)</label>
+        <textarea id="productImages" rows="2"></textarea>
+
+        <div class="actions">
+          <button id="saveProductBtn" type="button" class="primary">Gem produkt</button>
+          <button id="resetFormBtn" type="button" class="secondary">Ryd formular</button>
+        </div>
+        <p id="productFormMessage" class="order-message"></p>
+      </div>
+    </section>
+
+    <section class="panel card">
+      <h2>Alle produkter</h2>
+      <div class="actions">
+        <button id="refreshProductsBtn" type="button" class="secondary">Opdater liste</button>
+      </div>
+      <div id="categorySummary" class="stats-grid"></div>
+      <div id="productsList"></div>
+    </section>
+  </main>
+
+  <script src="produkter.js"></script>
+</body>
+</html>

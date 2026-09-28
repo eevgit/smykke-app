@@ -1,126 +1,23 @@
 const productsGrid = document.getElementById("productsGrid");
 const categoryBar = document.getElementById("categoryBar");
+const productSearch = document.getElementById("productSearch");
 
 const CART_KEY = "hosejbye_shop_cart";
+const WISHLIST_KEY = "hosejbye_wishlist";
 
-const products = [
- 
-  {
-    id: "b3",
-    category: "keyring",
-    categoryLabel: "Nøglering",
-    name: "Håndlavet Samling 1",
-    image: "assets/Design uden navn.png",
-    price: 50,
-    length: "8 cm",
-    description: "Unik håndlavet nøglering.",
-    stock: 1
-  },
-  {
-    id: "b3b",
-    category: "keyring",
-    categoryLabel: "Nøglering",
-    name: "Perle nøglering - Beige mix",
-    image: "assets/Design uden navn (4).png",
-    price: 65,
-    length: "7 cm",
-    description: "Smuk håndlavet nøglering med beige og neutrale perler.",
-    stock: 1
-  },
-  {
-    id: "b3c",
-    category: "keyring",
-    categoryLabel: "Nøglering",
-    name: "Perle nøglering - Grønne nuancer",
-    image: "assets/Design uden navn (6).png",
-    price: 75,
-    length: "8 cm",
-    description: "Elegant nøglering med grønne og varme jordfarver.",
-    stock: 1
-  },
-  {
-    id: "b4",
-    category: "bracelet",
-    categoryLabel: "Armbånd",
-    name: "Grønt armbånd med skiftevis 8 mm og små perler",
-    image: "assets/Design uden navn (1).png",
-    price: 100,
-    length: "18,0 cm",
-    description: "Personligt designet armbånd med varme jordfarver og fine perledetaljer.",
-    stock: 1
-  },
-  {
-    id: "b5",
-    category: "bracelet",
-    categoryLabel: "Armbånd",
-    name: "Håndlavet Samling 3",
-    image: "assets/Design uden navn (2).png",
-    price: 100,
-    length: "18,2 cm",
-    description: "Smykt armbånd med blanding af neutrale og varme toner. Perfekt til hverdagen.",
-    stock: 1
-  },
-  {
-    id: "b6",
-    category: "necklace",
-    categoryLabel: "Halskæde",
-    name: "10 mm perlehalskæde i lyse nuancer",
-    image: "assets/Design uden navn (3).png",
-    price: 200,
-    length: "17,8 cm",
-    description: "Justerbar halskæde med lyse perler i forskellige nuancer.",
-    stock: 1
-  },
-  {
-    id: "b7",
-    category: "necklace",
-    categoryLabel: "Halskæde",
-    name: "Mixet perlehalskæde",
-    image: "assets/Design uden navn (5).png",
-    price: 225,
-    length: "40,0 cm",
-    description: "Smuk håndlavet halskæde med delikate perler og justerbar lås.",
-    stock: 1
-  },
-  
-  
-  {
-    id: "b9",
-    category: "necklace",
-    categoryLabel: "Halskæde",
-    name: "8 mm perlehalskæde i brunlige nuancer",
-    image: "assets/Design uden navn (11).png",
-    price: 150,
-    length: "40 cm",
-    description: "Halskæde med perler i størrelse 8 mm i forskellige brunlige nuancer og med justerbar lås.",
-    stock: 1
-  },
-  {
-    id: "b10",
-    category: "necklace",
-    categoryLabel: "Halskæde",
-    name: "10 mm perlehalskæde i lysegrønne nuancer",
-    image: "assets/Design uden navn (12).png",
-    price: 180,
-    length: "18,0 cm",
-    description: "Flot håndlavet halskæde med lysegrønne 10 mm perler.",
-    stock: 1
-  },
-  {
-    id: "b11",
-    category: "necklace",
-    categoryLabel: "Halskæde",
-    name: "10 mm perlehalskæde i lyserød/pink nuancer",
-    image: "assets/Design uden navn (13).png",
-    price: 180,
-    length: "18,5 cm",
-    description: "Elegant halskæde med 10 mm perler i lyserød/pinke nuancer.",
-    stock: 1
+function resolveApiUrl(path) {
+  const isHttp = window.location.protocol === "http:" || window.location.protocol === "https:";
+  if (isHttp && window.location.origin.includes("localhost:3000")) {
+    return path;
   }
-];
+  return `http://localhost:3000${path}`;
+}
 
+let products = [];
 let activeCategory = "all";
+let searchTerm = "";
 let cart = loadCart();
+let wishlist = loadWishlist();
 
 const categoryOrder = ["bracelet", "necklace", "keyring"];
 
@@ -151,17 +48,49 @@ function notifyCartUpdate(reason) {
   window.dispatchEvent(new CustomEvent("cart:updated", { detail: { reason } }));
 }
 
-function filteredProducts() {
-  let list;
-  if (activeCategory === "all") {
-    list = products;
-    // Sort by category order when "all" is selected
-    list = list.sort((a, b) => {
-      return categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category);
-    });
-  } else {
-    list = products.filter((item) => item.category === activeCategory);
+function loadWishlist() {
+  try {
+    const raw = localStorage.getItem(WISHLIST_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
   }
+}
+
+function saveWishlist() {
+  localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlist));
+}
+
+function toggleWishlist(productId) {
+  const index = wishlist.indexOf(productId);
+  if (index >= 0) {
+    wishlist.splice(index, 1);
+  } else {
+    wishlist.push(productId);
+  }
+  saveWishlist();
+  renderProducts();
+}
+
+function filteredProducts() {
+  let list = products;
+
+  if (activeCategory === "favorites") {
+    list = list.filter((item) => wishlist.includes(item.id));
+  } else if (activeCategory !== "all") {
+    list = list.filter((item) => item.category === activeCategory);
+  }
+
+  if (searchTerm) {
+    const term = searchTerm.toLowerCase();
+    list = list.filter((item) => item.name.toLowerCase().includes(term) || item.description.toLowerCase().includes(term));
+  }
+
+  if (activeCategory === "all") {
+    list = [...list].sort((a, b) => categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category));
+  }
+
   return list;
 }
 
@@ -169,25 +98,31 @@ function renderProducts() {
   const list = filteredProducts();
 
   if (!list.length) {
-    productsGrid.innerHTML = '<article class="card"><p>Ingen produkter i den kategori lige nu.</p></article>';
+    productsGrid.innerHTML = '<article class="card"><p>Ingen produkter matcher lige nu.</p></article>';
     return;
   }
 
   productsGrid.innerHTML = list
     .map((item) => {
+      const outOfStock = Number(item.stock) <= 0;
+      const isFavorite = wishlist.includes(item.id);
+      const image = (item.images && item.images[0]) || "";
+
       return `
-        <article class="card product-card">
-          <img class="product-image" src="${item.image}" alt="${item.categoryLabel} ${item.name}" />
+        <article class="card product-card${outOfStock ? " is-out-of-stock" : ""}">
+          <button type="button" class="wishlist-btn${isFavorite ? " active" : ""}" data-wishlist-id="${item.id}" aria-label="Favorit">${isFavorite ? "♥" : "♡"}</button>
+          <img class="product-image" src="${image}" alt="${item.categoryLabel} ${item.name}" />
           <p class="product-category">${item.categoryLabel}</p>
           <h2>${item.name}</h2>
           <p><strong>Længde:</strong> ${item.length}</p>
           <p><strong>Pris:</strong> ${formatDkk(item.price)}</p>
+          ${outOfStock ? '<p class="out-of-stock-badge">Udsolgt</p>' : ""}
           <details class="product-details">
             <summary>Se mere beskrivelse</summary>
             <p>${item.description}</p>
             <p class="stock-count">Antal på lager: ${item.stock}</p>
           </details>
-          <button class="primary add-btn" type="button" data-product-id="${item.id}">Læg i kurv</button>
+          <button class="primary add-btn" type="button" data-product-id="${item.id}" ${outOfStock ? "disabled" : ""}>${outOfStock ? "Udsolgt" : "Læg i kurv"}</button>
         </article>
       `;
     })
@@ -198,11 +133,17 @@ function renderProducts() {
       addToCart(button.dataset.productId);
     });
   });
+
+  document.querySelectorAll("[data-wishlist-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      toggleWishlist(button.dataset.wishlistId);
+    });
+  });
 }
 
 function addToCart(productId) {
   const item = products.find((product) => product.id === productId);
-  if (!item) return;
+  if (!item || Number(item.stock) <= 0) return;
 
   const existing = cart.find((entry) => entry.id === productId);
   if (existing) {
@@ -237,4 +178,22 @@ categoryBar.addEventListener("click", (event) => {
   renderProducts();
 });
 
-renderProducts();
+if (productSearch) {
+  productSearch.addEventListener("input", () => {
+    searchTerm = productSearch.value.trim();
+    renderProducts();
+  });
+}
+
+async function loadProducts() {
+  try {
+    const response = await fetch(resolveApiUrl("/api/products?type=jewelry"));
+    const data = await response.json();
+    products = Array.isArray(data.products) ? data.products : [];
+  } catch {
+    products = [];
+  }
+  renderProducts();
+}
+
+loadProducts();

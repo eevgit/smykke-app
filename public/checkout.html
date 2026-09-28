@@ -64,6 +64,22 @@
           <p id="checkoutMessage" class="order-message"></p>
         </div>
       </article>
+
+      <article class="card">
+        <h2>Find din ordre</h2>
+        <p class="intro">Har du allerede bestilt? Slå din ordre op med ordre-id og din kontaktoplysning.</p>
+        <div class="checkout-form">
+          <label for="lookupOrderId">Ordre-ID</label>
+          <input id="lookupOrderId" type="text" placeholder="Fra din kvittering" />
+
+          <label for="lookupContact">Email eller telefon</label>
+          <input id="lookupContact" type="text" placeholder="Samme som ved bestilling" />
+
+          <button id="lookupOrderBtn" class="secondary" type="button">Find ordre</button>
+          <p id="lookupMessage" class="order-message"></p>
+          <div id="lookupResult"></div>
+        </div>
+      </article>
     </section>
   </main>
 

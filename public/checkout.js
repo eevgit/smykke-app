@@ -8,6 +8,11 @@ const orderCity = document.getElementById("orderCity");
 const orderNote = document.getElementById("orderNote");
 const submitOrderBtn = document.getElementById("submitOrderBtn");
 const checkoutMessage = document.getElementById("checkoutMessage");
+const lookupOrderId = document.getElementById("lookupOrderId");
+const lookupContact = document.getElementById("lookupContact");
+const lookupOrderBtn = document.getElementById("lookupOrderBtn");
+const lookupMessage = document.getElementById("lookupMessage");
+const lookupResult = document.getElementById("lookupResult");
 
 const CART_KEY = "hosejbye_shop_cart";
 let cart = loadCart();
@@ -150,7 +155,11 @@ async function submitOrder() {
       throw new Error(`Bestillingen kunne ikke sendes (${response.status}): ${details}`);
     }
 
-    setCheckoutMessage(`Tak. Din bestilling er modtaget. Ordre-ID: ${data.orderId}.`, "ok");
+    const total = orderItems.reduce((sum, item) => sum + (item.priceDkk || 0) * item.count, 0);
+    setCheckoutMessage(
+      `Tak, ${name}! Din bestilling er modtaget. Ordre-ID: ${data.orderId}. I alt ${formatDkk(total)} for ${orderItems.length} varelinjer. Gem ordre-id'et, så kan du slå status op senere under "Find din ordre".`,
+      "ok"
+    );
     cart = [];
     saveCart();
     window.dispatchEvent(new CustomEvent("cart:updated", { detail: { reason: "quantity" } }));
@@ -178,6 +187,61 @@ async function submitOrder() {
 }
 
 submitOrderBtn.addEventListener("click", submitOrder);
+
+function setLookupMessage(text, type) {
+  lookupMessage.textContent = text;
+  lookupMessage.classList.remove("ok", "warn");
+  if (type) {
+    lookupMessage.classList.add(type);
+  }
+}
+
+async function lookupOrder() {
+  const orderId = lookupOrderId.value.trim();
+  const contact = lookupContact.value.trim();
+
+  if (!orderId || contact.length < 3) {
+    setLookupMessage("Udfyld ordre-id og kontaktoplysning (min. 3 tegn).", "warn");
+    lookupResult.innerHTML = "";
+    return;
+  }
+
+  lookupOrderBtn.disabled = true;
+  lookupOrderBtn.textContent = "Søger...";
+  setLookupMessage("", "");
+  lookupResult.innerHTML = "";
+
+  try {
+    const params = new URLSearchParams({ orderId, contact });
+    const response = await fetch(resolveApiUrl(`/api/orders/lookup?${params.toString()}`));
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.error || "Ingen ordre fundet med de oplysninger.");
+    }
+
+    const order = data.order;
+    const items = (order.items || [])
+      .map((item) => `<li>${item.type} - ${item.count} stk${Number.isFinite(Number(item.priceDkk)) ? ` - ${formatDkk(Number(item.priceDkk))}` : ""}</li>`)
+      .join("");
+
+    lookupResult.innerHTML = `
+      <div class="cart-item">
+        <p><strong>Status:</strong> ${order.status}</p>
+        <p><strong>Bestilt:</strong> ${new Date(order.createdAt).toLocaleString("da-DK")}</p>
+        <ul>${items}</ul>
+      </div>
+    `;
+    setLookupMessage("Ordre fundet", "ok");
+  } catch (error) {
+    setLookupMessage(error.message || "Der opstod en fejl ved opslaget.", "warn");
+  } finally {
+    lookupOrderBtn.disabled = false;
+    lookupOrderBtn.textContent = "Find ordre";
+  }
+}
+
+lookupOrderBtn.addEventListener("click", lookupOrder);
 window.addEventListener("cart:updated", () => {
   cart = loadCart();
   renderCart();

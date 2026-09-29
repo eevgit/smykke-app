@@ -49,6 +49,12 @@
     const item = cart.find((entry) => entry.id === itemId);
     if (!item) return;
 
+    const stockLimit = Number(item.stock) || 0;
+
+    if (delta > 0 && stockLimit > 0 && Number(item.quantity || 1) >= stockLimit) {
+      return;
+    }
+
     const nextQuantity = Number(item.quantity || 1) + delta;
     if (nextQuantity <= 0) {
       const next = cart.filter((entry) => entry.id !== itemId);
@@ -57,7 +63,7 @@
       return;
     }
 
-    item.quantity = nextQuantity;
+    item.quantity = stockLimit > 0 ? Math.min(nextQuantity, stockLimit) : nextQuantity;
     saveCart(cart);
     window.dispatchEvent(new CustomEvent("cart:updated", { detail: { reason: "quantity" } }));
   }
@@ -69,7 +75,17 @@
   }
 
   function render() {
-    const cart = readCart();
+    const cart = readCart().map((item) => {
+      const stockLimit = Number(item.stock) || 0;
+      if (stockLimit > 0 && Number(item.quantity || 0) > stockLimit) {
+        return { ...item, quantity: stockLimit };
+      }
+      return item;
+    });
+
+    if (cart.some((item) => Number(item.quantity || 0) > (Number(item.stock) || 0) && (Number(item.stock) || 0) > 0)) {
+      saveCart(cart);
+    }
 
     if (!cart.length) {
       listEl.innerHTML = "<p>Kurven er tom.</p>";
@@ -79,6 +95,9 @@
 
     listEl.innerHTML = cart
       .map((item) => {
+        const stockLimit = Number(item.stock) || 0;
+        const quantityReachedStock = stockLimit > 0 && Number(item.quantity || 0) >= stockLimit;
+
         return `
           <div class="cart-overview-item">
             <p><strong>${item.categoryLabel} - ${item.name}</strong></p>
@@ -86,7 +105,7 @@
             <div class="cart-overview-qty" data-item-id="${item.id}">
               <button type="button" class="secondary" data-action="decrement">-</button>
               <span>${item.quantity}</span>
-              <button type="button" class="secondary" data-action="increment">+</button>
+              <button type="button" class="secondary" data-action="increment" ${quantityReachedStock ? "disabled" : ""}>+</button>
               <button type="button" class="secondary" data-action="remove">Fjern</button>
             </div>
           </div>

@@ -104,11 +104,13 @@ function renderProducts() {
   ceramicGrid.innerHTML = list
     .map((item) => {
       const outOfStock = Number(item.stock) <= 0;
+      const lowStock = Number(item.stock) > 0 && Number(item.stock) <= 2;
       const isFavorite = wishlist.includes(item.id);
       const images = item.images || [];
       const imageItems = images
         .map((img, idx) => `<img class="product-image gallery-image" src="${img}" alt="${item.name}" ${idx > 0 ? 'hidden' : ''} />`)
         .join("");
+      const stockMessage = lowStock ? `<p class="out-of-stock-badge low-stock">Kun ${item.stock} tilbage på lager</p>` : `<p class="stock-count">Antal på lager: ${item.stock}</p>`;
 
       return `
         <article class="card product-card${outOfStock ? " is-out-of-stock" : ""}" data-product-id="${item.id}">
@@ -127,7 +129,8 @@ function renderProducts() {
           <p><strong>Pris:</strong> ${formatPrice(item.price)}</p>
           ${outOfStock ? '<p class="out-of-stock-badge">Udsolgt</p>' : ""}
           <p>${item.description}</p>
-          <button class="primary add-ceramic-btn" type="button" data-product-id="${item.id}" ${outOfStock ? "disabled" : ""}>${outOfStock ? "Udsolgt" : "Læg i kurv"}</button>
+          ${stockMessage}
+          <button class="primary add-ceramic-btn" type="button" data-product-id="${item.id}" ${outOfStock ? "disabled" : ""}>${outOfStock ? "Udsolgt" : (lowStock ? `Læg i kurv (${item.stock} tilbage)` : "Læg i kurv")}</button>
         </article>
       `;
     })

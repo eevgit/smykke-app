@@ -103,9 +103,11 @@ function renderProducts() {
   productsGrid.innerHTML = list
     .map((item) => {
       const outOfStock = Number(item.stock) <= 0;
+      const lowStock = Number(item.stock) > 0 && Number(item.stock) <= 2;
       const isFavorite = wishlist.includes(item.id);
       const image = (item.images && item.images[0]) || "";
       const lengthText = item.length && String(item.length).trim() ? `<p><strong>Længde:</strong> ${item.length}</p>` : "";
+      const stockMessage = lowStock ? `<p class="out-of-stock-badge low-stock">Kun ${item.stock} tilbage på lager</p>` : `<p class="stock-count">Antal på lager: ${item.stock}</p>`;
 
       return `
         <article class="card product-card${outOfStock ? " is-out-of-stock" : ""}">
@@ -119,9 +121,9 @@ function renderProducts() {
           <details class="product-details">
             <summary>Se mere beskrivelse</summary>
             <p>${item.description}</p>
-            <p class="stock-count">Antal på lager: ${item.stock}</p>
+            ${stockMessage}
           </details>
-          <button class="primary add-btn" type="button" data-product-id="${item.id}" ${outOfStock ? "disabled" : ""}>${outOfStock ? "Udsolgt" : "Læg i kurv"}</button>
+          <button class="primary add-btn" type="button" data-product-id="${item.id}" ${outOfStock ? "disabled" : ""}>${outOfStock ? "Udsolgt" : (lowStock ? `Læg i kurv (${item.stock} tilbage)` : "Læg i kurv")}</button>
         </article>
       `;
     })

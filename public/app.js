@@ -13,10 +13,10 @@ const clearBtn = document.getElementById("clearBtn");
 const CART_KEY = "hosejbye_shop_cart";
 
 const designPrices = {
-  bracelet: 349,
-  necklace: 529,
-  earrings: 249,
-  keyring: 199
+  bracelet: 120,
+  necklace: 200,
+  earrings: 225,
+  keyring: 90
 };
 
 const lengthTargets = {

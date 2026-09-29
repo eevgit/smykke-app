@@ -169,18 +169,146 @@
     "stock": 3
   },
   {
-    "id": "ceramic-vase",
+    "id": "ceramic-matcha-bowl",
     "type": "ceramic",
-    "category": "vase",
-    "categoryLabel": "Vaser",
-    "name": "Vase - Sandtone",
+    "category": "matcha",
+    "categoryLabel": "Matcha skåle",
+    "name": "Matcha skål",
     "images": [
-      "assets/Design uden navn (12).png",
-      "assets/Design uden navn (13).png"
+      "assets/Matcha.jpeg",
+      "assets/Matcha1.jpeg",
+      "assets/Matcha2.jpeg",
+      "assets/Matcha3.jpeg"
     ],
-    "price": 349,
+    "price": 299,
     "length": "Keramik",
-    "description": "Højde 22 cm. God til tørrede blomster. Egnet til mad. Kan komme i opvaskemaskinen.",
-    "stock": 3
+    "description": "Smuk matcha-skål i håndlavet keramik med minimalistisk form og varm grøn farve.",
+    "stock": 2
+  },
+  {
+    "id": "ceramic-bowl-oyster",
+    "type": "ceramic",
+    "category": "bowl",
+    "categoryLabel": "Skåle",
+    "name": "Oysterskål",
+    "images": [
+      "assets/oysterskål.JPG"
+    ],
+    "price": 249,
+    "length": "Keramik",
+    "description": "Sømløs skål i keramisk design med blød form og naturlig finish.",
+    "stock": 2
+  },
+  {
+    "id": "ceramic-bowl-one",
+    "type": "ceramic",
+    "category": "bowl",
+    "categoryLabel": "Skåle",
+    "name": "Skål 1",
+    "images": [
+      "assets/skål1.JPG"
+    ],
+    "price": 229,
+    "length": "Keramik",
+    "description": "Lille skål i keramisk glaseret design til dekoration eller opbevaring.",
+    "stock": 2
+  },
+  {
+    "id": "ceramic-cup-strikke",
+    "type": "ceramic",
+    "category": "cup",
+    "categoryLabel": "Kopper",
+    "name": "Strikkekop",
+    "images": [
+      "assets/strikkekop.JPG"
+    ],
+    "price": 219,
+    "length": "Keramik",
+    "description": "Tekstureret keramikkop med varmt, håndlavet look i en moderne form.",
+    "stock": 2
+  },
+  {
+    "id": "ceramic-cup-kop1",
+    "type": "ceramic",
+    "category": "cup",
+    "categoryLabel": "Kopper",
+    "name": "Kop 1",
+    "images": [
+      "assets/kop1.JPG"
+    ],
+    "price": 199,
+    "length": "Keramik",
+    "description": "Klassisk keramikkop i naturlige toner, perfekt til kaffe eller te.",
+    "stock": 2
+  },
+  {
+    "id": "ceramic-candle-blue",
+    "type": "ceramic",
+    "category": "candlestick",
+    "categoryLabel": "Lysestager",
+    "name": "Lysestage blå",
+    "images": [
+      "assets/Lysestageblå.JPG"
+    ],
+    "price": 299,
+    "length": "Keramik",
+    "description": "Lysestage i blå keramisk glasur med dekorativ, stilren form.",
+    "stock": 2
+  },
+  {
+    "id": "ceramic-candle-brown",
+    "type": "ceramic",
+    "category": "candlestick",
+    "categoryLabel": "Lysestager",
+    "name": "Lysestage brun",
+    "images": [
+      "assets/Lysestagebrun.JPG"
+    ],
+    "price": 299,
+    "length": "Keramik",
+    "description": "Lysestage i varm brun keramisk glasur med naturlig, jordet stemning.",
+    "stock": 2
+  },
+  {
+    "id": "d45e7a78-e0dd-4ba1-ab5c-78e7b9994a25",
+    "type": "jewelry",
+    "category": "earrings",
+    "categoryLabel": "Øreringe",
+    "name": "Amber",
+    "images": [
+      "assets/guleogbrune.jpeg"
+    ],
+    "price": 150,
+    "length": "",
+    "description": "",
+    "stock": 1
+  },
+  {
+    "id": "79bb69c1-f7ba-4527-ab5d-6b04198b4dff",
+    "type": "jewelry",
+    "category": "earrings",
+    "categoryLabel": "Øreringe",
+    "name": "Luna",
+    "images": [
+      "assets/blå.jpeg"
+    ],
+    "price": 150,
+    "length": "",
+    "description": "",
+    "stock": 1
+  },
+  {
+    "id": "970a7e17-7424-4226-baaa-c5a0b7ba5ccf",
+    "type": "jewelry",
+    "category": "earrings",
+    "categoryLabel": "Øreringe",
+    "name": "Nacre",
+    "images": [
+      "assets/hvide.jpeg"
+    ],
+    "price": 150,
+    "length": "",
+    "description": "",
+    "stock": 2
   }
 ]

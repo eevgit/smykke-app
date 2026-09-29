@@ -59,6 +59,7 @@ function defaultProducts() {
     { id: "b11", type: "jewelry", category: "necklace", categoryLabel: "Halskæde", name: "10 mm perlehalskæde i lyserød/pink nuancer", images: ["assets/Design uden navn (13).png"], price: 180, length: "18,5 cm", description: "Elegant halskæde med 10 mm perler i lyserød/pinke nuancer.", stock: 1 },
     { id: "ceramic-cup", type: "ceramic", category: "cup", categoryLabel: "Kopper", name: "Espressokop - Lerhvid", images: ["assets/Design uden navn (9).png", "assets/Design uden navn (10).png"], price: 229, length: "Keramik", description: "Volumen 180 ml. Mat finish med prikker. Egnet til mad. Kan komme i opvaskemaskinen.", stock: 3 },
     { id: "ceramic-bowl", type: "ceramic", category: "bowl", categoryLabel: "Skåle", name: "Skål - Havgrøn glasur", images: ["assets/Design uden navn (8).png"], price: 279, length: "Keramik", description: "Diameter 14 cm. Velegnet til snack og morgenmad. Egnet til mad. Kan komme i opvaskemaskinen.", stock: 3 },
+    { id: "ceramic-matcha-bowl", type: "ceramic", category: "matcha", categoryLabel: "Matcha skåle", name: "Matcha skål", images: ["assets/Matcha.jpeg", "assets/Matcha1.jpeg", "assets/Matcha2.jpeg", "assets/Matcha3.jpeg"], price: 299, length: "Keramik", description: "Smuk matcha-skål i håndlavet keramik med minimalistisk form og varm grøn farve.", stock: 2 },
     { id: "ceramic-vase", type: "ceramic", category: "vase", categoryLabel: "Vaser", name: "Vase - Sandtone", images: ["assets/Design uden navn (12).png", "assets/Design uden navn (13).png"], price: 349, length: "Keramik", description: "Højde 22 cm. God til tørrede blomster. Egnet til mad. Kan komme i opvaskemaskinen.", stock: 3 }
   ];
 }
@@ -72,6 +73,12 @@ function normalizeProduct(raw, existing) {
     const parsed = Number(value);
     return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
   };
+  const normalizeCategory = (value, fallback) => {
+    const text = toText(value, fallback || "other").toLowerCase();
+    if (text === "earring") return "earrings";
+    if (text === "earrings") return "earrings";
+    return text.slice(0, 40);
+  };
 
   const images = Array.isArray(source.images)
     ? source.images.map((img) => String(img).trim()).filter(Boolean).slice(0, 8)
@@ -80,7 +87,7 @@ function normalizeProduct(raw, existing) {
   return {
     id: defaults.id || String(source.id || "").trim() || crypto.randomUUID(),
     type: source.type === "ceramic" ? "ceramic" : source.type === "jewelry" ? "jewelry" : defaults.type || "jewelry",
-    category: toText(source.category, defaults.category || "other").slice(0, 40),
+    category: normalizeCategory(source.category, defaults.category || "other"),
     categoryLabel: toText(source.categoryLabel, defaults.categoryLabel || ""),
     name: toText(source.name, defaults.name || "Nyt produkt"),
     images: images.length ? images : ["assets/Design uden navn.png"],
@@ -455,6 +462,8 @@ function mimeType(filePath) {
   if (ext === ".css") return "text/css; charset=utf-8";
   if (ext === ".js") return "application/javascript; charset=utf-8";
   if (ext === ".json") return "application/json; charset=utf-8";
+  if (ext === ".xml") return "application/xml; charset=utf-8";
+  if (ext === ".txt") return "text/plain; charset=utf-8";
   if (ext === ".svg") return "image/svg+xml";
   if (ext === ".png") return "image/png";
   if (ext === ".jpg" || ext === ".jpeg") return "image/jpeg";

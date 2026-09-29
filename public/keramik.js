@@ -77,7 +77,7 @@ const ceramicGrid = document.getElementById("ceramicGrid");
 const categoryBar = document.getElementById("categoryBar");
 const productSearch = document.getElementById("productSearch");
 
-const categoryOrder = ["cup", "bowl", "vase"];
+const categoryOrder = ["cup", "bowl", "matcha", "candlestick", "vase"];
 
 function filteredProducts() {
   let list = ceramicProducts;

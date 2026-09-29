@@ -15,12 +15,14 @@ const CART_KEY = "hosejbye_shop_cart";
 const designPrices = {
   bracelet: 349,
   necklace: 529,
+  earrings: 249,
   keyring: 199
 };
 
 const lengthTargets = {
   bracelet: { label: "Armbånd", mm: 180 },
   necklace: { label: "Halskæde", mm: 400 },
+  earrings: { label: "Øreringe", mm: 120 },
   keyring: { label: "Nøglering", mm: 100 }
 };
 

@@ -1,6 +1,6 @@
 {
-  "importedAt": "2026-09-22T05:26:25.885Z",
-  "fileName": "Regnskab af vejbod.xlsx",
+  "importedAt": "2026-09-29T06:29:57.033Z",
+  "fileName": "Regnskab af vejbod (1).xlsx",
   "watchedFilePath": "C:\\Users\\evads\\OneDrive - Aarhus universitet\\Regnskab af vejbod.xlsx",
   "daily": [
     {
@@ -110,33 +110,33 @@
     {
       "month": "2026-09",
       "label": "sep. 2026",
-      "revenue": 10005,
-      "expense": 2078,
+      "revenue": 12067,
+      "expense": 3325,
       "categories": [
         {
           "category": "Halskæder",
           "group": "Smykker",
-          "revenue": 6605
+          "revenue": 7720
         },
         {
           "category": "Armbånd",
           "group": "Smykker",
-          "revenue": 1485
+          "revenue": 2045
         },
         {
           "category": "Øreringe",
           "group": "Smykker",
-          "revenue": 690
+          "revenue": 917
+        },
+        {
+          "category": "Skåle",
+          "group": "Keramik",
+          "revenue": 475
         },
         {
           "category": "Kop m. hank",
           "group": "Keramik",
           "revenue": 475
-        },
-        {
-          "category": "Skåle",
-          "group": "Keramik",
-          "revenue": 390
         },
         {
           "category": "Nøgleringe",
@@ -147,17 +147,22 @@
           "category": "Lysestager",
           "group": "Keramik",
           "revenue": 150
+        },
+        {
+          "category": "Grydeskeholder",
+          "group": "Keramik",
+          "revenue": 75
         }
       ],
       "groups": [
         {
           "group": "Smykker",
-          "revenue": 8990,
-          "expense": 2078
+          "revenue": 10892,
+          "expense": 3325
         },
         {
           "group": "Keramik",
-          "revenue": 1015,
+          "revenue": 1175,
           "expense": 0
         }
       ]
@@ -167,22 +172,22 @@
     {
       "category": "Halskæder",
       "group": "Smykker",
-      "revenue": 11442.5
+      "revenue": 12557.5
     },
     {
       "category": "Armbånd",
       "group": "Smykker",
-      "revenue": 3560
+      "revenue": 4120
     },
     {
       "category": "Øreringe",
       "group": "Smykker",
-      "revenue": 990
+      "revenue": 1217
     },
     {
       "category": "Skåle",
       "group": "Keramik",
-      "revenue": 840
+      "revenue": 925
     },
     {
       "category": "Kop m. hank",
@@ -202,7 +207,7 @@
     {
       "category": "Grydeskeholder",
       "group": "Keramik",
-      "revenue": 150
+      "revenue": 225
     },
     {
       "category": "Lysestager",
@@ -213,13 +218,13 @@
   "groups": [
     {
       "group": "Keramik",
-      "revenue": 2185,
+      "revenue": 2345,
       "expense": 0
     },
     {
       "group": "Smykker",
-      "revenue": 16262.5,
-      "expense": 5871.24
+      "revenue": 18164.5,
+      "expense": 7118.24
     }
   ],
   "rowCount": 93,

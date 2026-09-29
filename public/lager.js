@@ -19,7 +19,7 @@ let searchTerm = "";
 let cart = loadCart();
 let wishlist = loadWishlist();
 
-const categoryOrder = ["bracelet", "necklace", "keyring"];
+const categoryOrder = ["bracelet", "necklace", "earrings", "keyring"];
 
 function formatDkk(value) {
   return new Intl.NumberFormat("da-DK", {
@@ -107,6 +107,7 @@ function renderProducts() {
       const outOfStock = Number(item.stock) <= 0;
       const isFavorite = wishlist.includes(item.id);
       const image = (item.images && item.images[0]) || "";
+      const lengthText = item.length && String(item.length).trim() ? `<p><strong>Længde:</strong> ${item.length}</p>` : "";
 
       return `
         <article class="card product-card${outOfStock ? " is-out-of-stock" : ""}">
@@ -114,7 +115,7 @@ function renderProducts() {
           <img class="product-image" src="${image}" alt="${item.categoryLabel} ${item.name}" />
           <p class="product-category">${item.categoryLabel}</p>
           <h2>${item.name}</h2>
-          <p><strong>Længde:</strong> ${item.length}</p>
+          ${lengthText}
           <p><strong>Pris:</strong> ${formatDkk(item.price)}</p>
           ${outOfStock ? '<p class="out-of-stock-badge">Udsolgt</p>' : ""}
           <details class="product-details">

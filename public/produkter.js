@@ -22,10 +22,8 @@ let activeCategoryFilter = null;
 
 function resolveApiUrl(path) {
   const isHttp = window.location.protocol === "http:" || window.location.protocol === "https:";
-  if (isHttp && window.location.origin.includes("localhost:3000")) {
-    return path;
-  }
-  return `http://localhost:3000${path}`;
+  if (!isHttp) return path;
+  return new URL(path, window.location.origin).toString();
 }
 
 function getToken() {

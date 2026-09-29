@@ -88,11 +88,13 @@ function renderCart() {
 function buildOrderItems() {
   return cart.map((item) => {
     return {
+      id: item.id || "",
       type: `${item.categoryLabel} - ${item.name}`,
       count: item.quantity,
       lengthMm: toLengthMm(item.length),
       priceDkk: item.price,
-      description: item.description || ""
+      description: item.description || "",
+      stock: Number(item.stock || 0)
     };
   });
 }

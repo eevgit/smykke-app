@@ -1095,6 +1095,32 @@ async function handleApi(req, res, pathname, searchParams) {
       return true;
     }
 
+    const products = readJson(PRODUCTS_FILE);
+    const requestedPerProduct = new Map();
+
+    for (const item of items) {
+      const productId = String(item.id || "").trim();
+      if (!productId) continue;
+      const product = products.find((entry) => entry.id === productId);
+      if (!product) continue;
+
+      const count = Number(item.count ?? item.quantity ?? 1);
+      const currentTotal = requestedPerProduct.get(productId) || 0;
+      requestedPerProduct.set(productId, currentTotal + count);
+    }
+
+    for (const [productId, count] of requestedPerProduct.entries()) {
+      const product = products.find((entry) => entry.id === productId);
+      if (!product) continue;
+      const stockLimit = Number(product.stock) || 0;
+      if (count > stockLimit) {
+        sendJson(res, 409, {
+          error: `Du kan ikke bestille ${count} af ${product.name}. Der er kun ${stockLimit} på lager.`
+        });
+        return true;
+      }
+    }
+
     const order = {
       id: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
@@ -1105,6 +1131,13 @@ async function handleApi(req, res, pathname, searchParams) {
       },
       items
     };
+
+    for (const [productId, count] of requestedPerProduct.entries()) {
+      const product = products.find((entry) => entry.id === productId);
+      if (!product) continue;
+      product.stock = Math.max(0, Number(product.stock || 0) - count);
+    }
+    writeJson(PRODUCTS_FILE, products);
 
     const orders = readJson(ORDERS_FILE);
     orders.unshift(order);

@@ -145,6 +145,13 @@ function addToCart(productId) {
   if (!item || Number(item.stock) <= 0) return;
 
   const existing = cart.find((entry) => entry.id === productId);
+  const currentQty = existing ? Number(existing.quantity) || 0 : 0;
+  const stockLimit = Number(item.stock) || 0;
+
+  if (currentQty >= stockLimit) {
+    return;
+  }
+
   if (existing) {
     existing.quantity += 1;
   } else {
@@ -155,7 +162,8 @@ function addToCart(productId) {
       quantity: 1,
       categoryLabel: item.categoryLabel,
       length: item.length,
-      description: item.description
+      description: item.description,
+      stock: stockLimit
     });
   }
 
